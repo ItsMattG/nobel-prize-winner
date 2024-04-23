@@ -3,10 +3,11 @@ import { getDocs, query, where, QuerySnapshot, DocumentData, collectionGroup } f
 import { firestore } from '../firebase';
 import prizesData from '../newfile.json';
 import { IconSearch, IconAward, IconMoodSad, IconHeartFilled, IconHeart, IconInfoCircle } from '@tabler/icons-react';
-import { Select, Input, Button, Table, Pagination, Burger, MultiSelect, Drawer, Alert } from '@mantine/core';
+import { Select, Input, Button, Table, Pagination, Burger, MultiSelect, Alert } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import '@mantine/core/styles.css';
 import { Link } from 'react-router-dom';
+import DrawerMenu from '../components/DrawerMenu'
 
 interface SearchHistoryItem {
 	searchQuery: string | null;
@@ -713,20 +714,7 @@ const Home: React.FC = () => {
 
 	return (
 		<div className="big-container">
-			<Drawer overlayProps={{ backgroundOpacity: 0.5, blur: 4 }} offset={0} size="xs" radius="md" position="right" opened={opened} onClose={close}>
-				<div className="draw-content">
-					<Link to="/favourite" style={{ textDecoration: 'none' }}>
-						<div>
-							<h3>Favourites</h3>
-						</div>
-					</Link>
-					<Link to="/history" style={{ textDecoration: 'none' }}>
-						<div>
-							<h3>Search History</h3>
-						</div>
-					</Link>
-				</div>
-			</Drawer>
+			<DrawerMenu opened={opened} close={close} />
 
 			<header>
 				<nav className="navbar">

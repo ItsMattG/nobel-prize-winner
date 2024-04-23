@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Burger, Drawer, Button } from '@mantine/core';
+import { Table, Burger, Button } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { Link } from 'react-router-dom';
+import DrawerMenu from '../components/DrawerMenu'
 
 interface SearchFavouriteItem {
 	id: string;
@@ -36,20 +37,7 @@ const Favourite: React.FC = () => {
 
 	return (
 		<div className="big-container">
-			<Drawer overlayProps={{ backgroundOpacity: 0.5, blur: 4 }} offset={0} size="xs" radius="md" position="right" opened={opened} onClose={close}>
-				<div className="draw-content">
-					<Link to="/favourite" style={{ textDecoration: 'none' }}>
-					<div>
-						<h3>Favourites</h3>
-					</div>
-					</Link>
-					<Link to="/history" style={{ textDecoration: 'none' }}>
-					<div>
-						<h3>Search History</h3>
-					</div>
-					</Link>
-				</div>
-			</Drawer>
+			<DrawerMenu opened={opened} close={close} />
 
 			<header>
 				<nav className="navbar">

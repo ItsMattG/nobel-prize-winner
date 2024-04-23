@@ -5,10 +5,11 @@ import { firestore } from '../firebase';
 import { Burger, Drawer } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 import { useDisclosure } from '@mantine/hooks';
+import DrawerMenu from '../components/DrawerMenu'
 
 interface DetailsParams {
 	id: string;
-  	[key: string]: string | undefined;
+	[key: string]: string | undefined;
 }
 
 interface NobelPrizeWinner {
@@ -71,20 +72,7 @@ const Details: React.FC = () => {
 
 	return (
 		<div className="details-page">
-			<Drawer overlayProps={{ backgroundOpacity: 0.5, blur: 4 }} offset={0} size="xs" radius="md" position="right" opened={opened} onClose={close}>
-				<div className="draw-content">
-					<Link to="/favourite" style={{ textDecoration: 'none' }}>
-						<div>
-							<h3>Favourites</h3>
-						</div>
-					</Link>
-					<Link to="/history" style={{ textDecoration: 'none' }}>
-						<div>
-							<h3>Search History</h3>
-						</div>
-					</Link>
-				</div>
-			</Drawer>
+			<DrawerMenu opened={opened} close={close} />
 
 			<header className="details-header">
 				<nav className="navbar">
