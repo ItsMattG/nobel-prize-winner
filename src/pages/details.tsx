@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { collectionGroup, query, where, getDocs } from 'firebase/firestore';
 import { firestore } from '../firebase';
-import { Burger, Drawer } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 import { useDisclosure } from '@mantine/hooks';
 import DrawerMenu from '../components/DrawerMenu'
+import Navbar from '../components/Navbar'
 
 interface DetailsParams {
 	id: string;
@@ -74,18 +74,21 @@ const Details: React.FC = () => {
 		<div className="details-page">
 			<DrawerMenu opened={opened} close={close} />
 
-			<header className="details-header">
+			<Navbar openDrawer={open} />
+
+			{/* <header >
+
 				<nav className="navbar">
-				<Link to="/" style={{ textDecoration: 'none' }}>
-					<div className="logo">
-						<img src="/apple-touch-icon.png" alt="Nobel Prize" className="logo-icon" />
+					<Link to="/" style={{ textDecoration: 'none' }}>
+						<div className="logo">
+							<img src="/apple-touch-icon.png" alt="Nobel Prize" className="logo-icon" />
+						</div>
+					</Link>
+					<div className="menu-toggle">
+						<Burger color="white" onClick={open} aria-label="Toggle navigation" />
 					</div>
-				</Link>
-				<div className="menu-toggle">
-					<Burger color="white" onClick={open} aria-label="Toggle navigation" />
-				</div>
 				</nav>
-			</header>
+			</header> */}
 
 			<div className="winner-container">
 				{winner && (

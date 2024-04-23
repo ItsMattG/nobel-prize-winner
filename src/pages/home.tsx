@@ -3,11 +3,12 @@ import { getDocs, query, where, QuerySnapshot, DocumentData, collectionGroup } f
 import { firestore } from '../firebase';
 import prizesData from '../newfile.json';
 import { IconSearch, IconAward, IconMoodSad, IconHeartFilled, IconHeart, IconInfoCircle } from '@tabler/icons-react';
-import { Select, Input, Button, Table, Pagination, Burger, MultiSelect, Alert } from '@mantine/core';
+import { Select, Input, Button, Table, Pagination, MultiSelect, Alert } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import '@mantine/core/styles.css';
 import { Link } from 'react-router-dom';
 import DrawerMenu from '../components/DrawerMenu'
+import Navbar from '../components/Navbar'
 
 interface SearchHistoryItem {
 	searchQuery: string | null;
@@ -716,18 +717,7 @@ const Home: React.FC = () => {
 		<div className="big-container">
 			<DrawerMenu opened={opened} close={close} />
 
-			<header>
-				<nav className="navbar">
-					<Link to="/" style={{ textDecoration: 'none' }}>
-						<div className="logo">
-							<img src="/apple-touch-icon.png" alt="Nobel Prize" className="logo-icon" />
-						</div>
-					</Link>
-					<div className="menu-toggle">
-						<Burger color="white" onClick={open} aria-label="Toggle navigation" />
-					</div>
-				</nav>
-			</header>
+			<Navbar openDrawer={open} />
 
 			<div className="smaller-container">
 				<div className="inner-smaller-container">
