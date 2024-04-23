@@ -102,6 +102,17 @@ header {
 	padding-right: calc(8px + 1.5625vw);
 	padding-left: calc(8px + 1.5625vw);
 	padding-bottom: calc(8px + 1.5625vw);
+	align-items: center;
+}
+
+.inner-smaller-container {
+	@media (min-width: 1440px) {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		max-width: 50%;
+		width: 50%;
+	}
 }
 
 .results-badge-container {
@@ -140,7 +151,6 @@ header {
 
 
 .suggestions {
-	height: calc(90% - 40px);
 	overflow-y: auto;
 	padding-top: 4px;
 }
@@ -183,12 +193,22 @@ header {
 	padding-top: calc(4px + 1.5625vw);
 	flex-direction: row;
 	gap: calc(8px + 1.5625vw);
+	justify-content: space-between;
+}
+
+.year-filter {
+	width: 50%;
 }
 
 .pagination {
 	display: flex;
 	justify-content: space-around;
 	padding-top: calc(8px + 1.5625vw);
+	height: 8%;
+
+	@media (min-width: 1440px) {
+		height: 12%;
+	}
 }
 
 .prev-button,
@@ -219,6 +239,8 @@ header {
 	justify-content: center;
 	align-items: center;
 	height: 100%;
+	padding-top: 20%;
+	overflow: hidden;
 }
 
 .placeholder-search-something-content {
@@ -329,8 +351,18 @@ header {
 	gap: calc(8px + 1.5625vw);
 }
 
+/* Category selector */
+.cat-org .m_46b77525 {
+	@media (min-width: 800px) {
+		width: 50% !important;
+	}
+}
+
 .multi-select {
 	width: 48% !important;
+	@media (min-width: 800px) {
+		width: 50% !important;
+	}
 }
 
 .checkboxes {
@@ -402,6 +434,22 @@ header {
 	justify-content: space-evenly;
 	align-items: center;
 	height: 90%;
+	gap: 3em;
+
+	@media (min-width: 1440px) {
+		display: flex;
+		width: 40%;
+		flex-direction: column;
+	}
+}
+
+.winner-details-inner {
+	@media (min-width: 1440px) {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
 }
 
 .winner-header {
@@ -417,6 +465,23 @@ header {
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
+}
+
+.related-winner-details-container {
+	@media (min-width: 1440px) {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+}
+
+.inner-related-winner-details-container {
+	@media (min-width: 1440px) {
+		display: flex;
+		width: 40%;
+		flex-direction: column;
+	}
 }
 
 .winner-name-details {
@@ -473,6 +538,17 @@ header {
 	font-size: 26px;
 }
 
+.favourites {
+	width: 90%;
+
+	@media (min-width: 800px) {
+		width: 100%;
+	}
+	@media (min-width: 1440px) {
+		width: 70%;
+	}
+}
+
 .favourites .mantine-Button-label {
 	color: #000;
 	letter-spacing: 2px;
@@ -480,7 +556,7 @@ header {
 
 /* Table TD */
 .m_4e7aa4ef {
-	padding-bottom: 10px !important;
+	padding-bottom: calc(8px + 1.5625vw) !important;
 }
 
 .margin-table-row {
@@ -490,6 +566,17 @@ header {
 /* Table TR */
 .m_4e7aa4fd:where([data-with-row-border]) {
 	border-top: 1px solid #dee2e6 !important;
+}
+
+.history {
+	width: 90%;
+
+	@media (min-width: 800px) {
+		width: 100%;
+	}
+	@media (min-width: 800px) {
+		width: 70%;
+	}
 }
 
 .history h3 {

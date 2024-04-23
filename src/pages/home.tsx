@@ -742,179 +742,181 @@ const Home: React.FC = () => {
 			</header>
 
 			<div className="smaller-container">
-				{showAlert && (
-					<div onClick={handleCloseAlert}>
-						<Alert variant="light" color="black" withCloseButton title="Refine your search" icon={icon}>
-							Please refine your search. Add some filters, have some fun!
-						</Alert>
-					</div>
-				)}
-				<div className="container-header">
-					<h1 className="test-font">Nobel Prize Winners</h1>
-				</div>
-
-				<div className="search-container">
-					<div className="search-container-inner">
-						<div className="search">
-							<Input
-								placeholder="Search..."
-								size="sm"
-								className="search-input"
-								value={searchQuery}
-								onChange={(event) => setSearchQuery(event.target.value)}
-								onKeyDown={(event) => {
-									if (event.key === 'Enter') {
-										handleSearch();
-									}
-								}}
-							/>
-							<Button onClick={handleSearch} size="sm" variant="outline" className="search-button">
-								<IconSearch color="#ff9f59" />
-							</Button>
+				<div className="inner-smaller-container">
+					{showAlert && (
+						<div onClick={handleCloseAlert}>
+							<Alert variant="light" color="black" withCloseButton title="Refine your search" icon={icon}>
+								Please refine your search. Add some filters, have some fun!
+							</Alert>
 						</div>
-						<div className="filters">
-							<div className="cat-org">
-								<Select
-									placeholder="Category"
+					)}
+					<div className="container-header">
+						<h1 className="test-font">Nobel Prize Winners</h1>
+					</div>
+
+					<div className="search-container">
+						<div className="search-container-inner">
+							<div className="search">
+								<Input
+									placeholder="Search..."
 									size="sm"
-									data={categories}
-									onChange={(selectedValue) => setSelectedCategory(selectedValue)}
+									className="search-input"
+									value={searchQuery}
+									onChange={(event) => setSearchQuery(event.target.value)}
+									onKeyDown={(event) => {
+										if (event.key === 'Enter') {
+											handleSearch();
+										}
+									}}
 								/>
-								<MultiSelect
-									placeholder="Extra Filters"
-									className="multi-select"
-									data={['Only Organisations', 'No Winners']}
-									onChange={(event) => {
-										const selectedValues: string[] = event;
+								<Button onClick={handleSearch} size="sm" variant="outline" className="search-button">
+									<IconSearch color="#ff9f59" />
+								</Button>
+							</div>
+							<div className="filters">
+								<div className="cat-org">
+									<Select
+										placeholder="Category"
+										size="sm"
+										data={categories}
+										onChange={(selectedValue) => setSelectedCategory(selectedValue)}
+									/>
+									<MultiSelect
+										placeholder="Extra Filters"
+										className="multi-select"
+										data={['Only Organisations', 'No Winners']}
+										onChange={(event) => {
+											const selectedValues: string[] = event;
 
-										// Initialize variables to track deselected options
-										let deselectedIsOrganisation: boolean = selectedIsOrganisation;
-										let deselectedNoWinner: boolean = selectedNoWinner;
+											// Initialize variables to track deselected options
+											let deselectedIsOrganisation: boolean = selectedIsOrganisation;
+											let deselectedNoWinner: boolean = selectedNoWinner;
 
-										// Loop through the selected options
-										selectedValues.forEach(selectedValue => {
-											if (selectedValue === 'Only Organisations') {
-												setSelectedIsOrganisation(true);
-												deselectedIsOrganisation = false; // Mark as not deselected
-											} else if (selectedValue === 'No Winners') {
-												setSelectedNoWinner(true);
-												deselectedNoWinner = false; // Mark as not deselected
+											// Loop through the selected options
+											selectedValues.forEach(selectedValue => {
+												if (selectedValue === 'Only Organisations') {
+													setSelectedIsOrganisation(true);
+													deselectedIsOrganisation = false; // Mark as not deselected
+												} else if (selectedValue === 'No Winners') {
+													setSelectedNoWinner(true);
+													deselectedNoWinner = false; // Mark as not deselected
+												}
+											});
+
+											// Update the state for deselected options
+											if (deselectedIsOrganisation) {
+												setSelectedIsOrganisation(false);
 											}
-										});
-
-										// Update the state for deselected options
-										if (deselectedIsOrganisation) {
-											setSelectedIsOrganisation(false);
-										}
-										if (deselectedNoWinner) {
-											setSelectedNoWinner(false);
-										}
-									}}
-								/>
-							</div>
-							<div className="year-container">
-								<Select
-									placeholder="From Year"
-									size="sm"
-									className="year-filter"
-									data={years}
-									onChange={(selectedValue) => {
-										setSelectedFromYear(typeof selectedValue === 'string' ? parseInt(selectedValue) : selectedValue);
-									}}
-								/>
-								<Select
-									placeholder="To Year"
-									size="sm"
-									className="year-filter"
-									data={years}
-									onChange={(selectedValue) => {
-										setSelectedToYear(typeof selectedValue === 'string' ? parseInt(selectedValue) : selectedValue);
-									}}
-								/>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				{!isLoading && searchResults.length > 0 && (
-					<div className="results-badge-container">
-						<span className="results-badge">
-							Results: { searchResults.length }
-						</span>
-					</div>
-				)}
-
-				<div className="suggestions">
-					{isLoading ? (
-						<div className="overflow">
-							<SkeletonResult />
-							<SkeletonTable />
-						</div>
-					) : searchResults.length === 0 ? (
-						<div className="placeholder-search-something">
-							<div className="placeholder-search-something-content">
-								<p>{!hasSearched ? 'Search for something...' : 'No results matching search.'}</p>
-								<div>
-									{!hasSearched
-										? <IconAward style={{ height: '170px', width: '170px' }} />
-										: <IconMoodSad style={{ height: '170px', width: '170px' }} />
-									}
+											if (deselectedNoWinner) {
+												setSelectedNoWinner(false);
+											}
+										}}
+									/>
+								</div>
+								<div className="year-container">
+									<Select
+										placeholder="From Year"
+										size="sm"
+										className="year-filter"
+										data={years}
+										onChange={(selectedValue) => {
+											setSelectedFromYear(typeof selectedValue === 'string' ? parseInt(selectedValue) : selectedValue);
+										}}
+									/>
+									<Select
+										placeholder="To Year"
+										size="sm"
+										className="year-filter"
+										data={years}
+										onChange={(selectedValue) => {
+											setSelectedToYear(typeof selectedValue === 'string' ? parseInt(selectedValue) : selectedValue);
+										}}
+									/>
 								</div>
 							</div>
 						</div>
-					) : (
-						<Table withRowBorders={false}>
-							<Table.Tbody>
-								{getSlicedSuggestions().map((item, index) => (
-									<Table.Tr key={index}>
-										<Table.Td>
-											<Link to={item.noWinner ? '/' : `/details/${item.id}`} style={{ textDecoration: 'none' }}>
-												{item.overallMotivation ? (
-													<>
-														{'category' in item && (
-															<h4>{item.category} - {item.year}</h4>
-														)}
-														{'overallMotivation' in item && (
-															<span>{item.overallMotivation}</span>
-														)}
-													</>
-												) : (
-													<>
-														{'firstname' in item && (
-															<h4>{item.firstname} {item.surname ? item.surname : ''} - {item.year} {item.category}</h4>
-														)}
-														{'motivation' in item && (
-															<span>{item.motivation}</span>
-														)}
-													</>
-												)}
-											</Link>
-										</Table.Td>
-										<Table.Td>
-											{item.isFavourite
-												? <IconHeartFilled color="#ff9f59" onClick={() => removeFromFavourites(item)} style={{ cursor: 'pointer', height: '20px', width: '20px' }} />
-												: <IconHeart color="#ff9f59" onClick={() => addTofavourites(item)} style={{ cursor: 'pointer', height: '20px', width: '20px' }} />
-											}
-										</Table.Td>
-									</Table.Tr>
-								))}
-							</Table.Tbody>
-						</Table>
-					)}
-				</div>
+					</div>
 
-				<div className="pagination">
-					{isLoading ? (
-						<SkeletonPagination />
-					) : !isLoading && searchResults.length > 0 && (
-						<Pagination
-							total={Math.ceil(searchResults.length / itemsPerPage)}
-							value={currentPage}
-							onChange={handlePageChange}
-							mt="sm"
-							color="#ff9f59"
-						/>
+					{!isLoading && searchResults.length > 0 && (
+						<div className="results-badge-container">
+							<span className="results-badge">
+								Results: { searchResults.length }
+							</span>
+						</div>
 					)}
+
+					<div className="suggestions">
+						{isLoading ? (
+							<div className="overflow">
+								<SkeletonResult />
+								<SkeletonTable />
+							</div>
+						) : searchResults.length === 0 ? (
+							<div className="placeholder-search-something">
+								<div className="placeholder-search-something-content">
+									<p>{!hasSearched ? 'Search for something...' : 'No results matching search.'}</p>
+									<div>
+										{!hasSearched
+											? <IconAward style={{ height: '170px', width: '170px' }} />
+											: <IconMoodSad style={{ height: '170px', width: '170px' }} />
+										}
+									</div>
+								</div>
+							</div>
+						) : (
+							<Table withRowBorders={false}>
+								<Table.Tbody>
+									{getSlicedSuggestions().map((item, index) => (
+										<Table.Tr key={index}>
+											<Table.Td>
+												<Link to={item.noWinner ? '/' : `/details/${item.id}`} style={{ textDecoration: 'none' }}>
+													{item.overallMotivation ? (
+														<>
+															{'category' in item && (
+																<h4>{item.category} - {item.year}</h4>
+															)}
+															{'overallMotivation' in item && (
+																<span>{item.overallMotivation}</span>
+															)}
+														</>
+													) : (
+														<>
+															{'firstname' in item && (
+																<h4>{item.firstname} {item.surname ? item.surname : ''} - {item.year} {item.category}</h4>
+															)}
+															{'motivation' in item && (
+																<span>{item.motivation}</span>
+															)}
+														</>
+													)}
+												</Link>
+											</Table.Td>
+											<Table.Td>
+												{item.isFavourite
+													? <IconHeartFilled color="#ff9f59" onClick={() => removeFromFavourites(item)} style={{ cursor: 'pointer', height: '20px', width: '20px' }} />
+													: <IconHeart color="#ff9f59" onClick={() => addTofavourites(item)} style={{ cursor: 'pointer', height: '20px', width: '20px' }} />
+												}
+											</Table.Td>
+										</Table.Tr>
+									))}
+								</Table.Tbody>
+							</Table>
+						)}
+					</div>
+
+					<div className="pagination">
+						{isLoading ? (
+							<SkeletonPagination />
+						) : !isLoading && searchResults.length > 0 && (
+							<Pagination
+								total={Math.ceil(searchResults.length / itemsPerPage)}
+								value={currentPage}
+								onChange={handlePageChange}
+								mt="sm"
+								color="#ff9f59"
+							/>
+						)}
+					</div>
 				</div>
 			</div>
 		</div>
