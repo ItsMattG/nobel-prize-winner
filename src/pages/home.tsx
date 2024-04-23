@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getDocs, query, where, QuerySnapshot, DocumentData, collectionGroup } from 'firebase/firestore';
 import { firestore } from '../firebase';
 import prizesData from '../newfile.json';
@@ -17,27 +17,27 @@ interface SearchHistoryItem {
 	isOrganisation: boolean | null;
 }
 
-interface Prize {
-	year: string;
-	category: string;
-	overallMotivation?: string;
-	laureates: Laureate[];
-}
+// interface Prize {
+// 	year: string;
+// 	category: string;
+// 	overallMotivation?: string;
+// 	laureates: Laureate[];
+// }
 
-interface NoPrizeAwardedEntry {
-	year: string;
-	category: string;
-	overallMotivation: string;
-}
+// interface NoPrizeAwardedEntry {
+// 	year: string;
+// 	category: string;
+// 	overallMotivation: string;
+// }
 
-interface Laureate {
-	id: string;
-	firstname: string;
-	surname?: string;
-	motivation: string;
-	share: string;
-	isOrganisation?: boolean;
-}
+// interface Laureate {
+// 	id: string;
+// 	firstname: string;
+// 	surname?: string;
+// 	motivation: string;
+// 	share: string;
+// 	isOrganisation?: boolean;
+// }
 
 interface LaureateV2 {
 	id: string;
@@ -67,8 +67,6 @@ interface FavouriteItem {
 
 
 const Home: React.FC = () => {
-	type SuggestionsItem = { fullName: string } | { motivation: string };
-
 	const [opened, { open, close }] = useDisclosure(false);
 	const [searchQuery, setSearchQuery] = useState<string>("");
 	const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -79,9 +77,8 @@ const Home: React.FC = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [hasSearched, setHasSearched] = useState<boolean>(false);
 	const [searchResults, setSearchResults] = useState<LaureateV2[]>([]);
-	const [suggestions, setSuggestions] = useState<SuggestionsItem[]>([]);
-	const [searchHistory, setSearchHistory] = useState<SearchHistoryItem[]>([]);
-	const [motivations, setMotivations] = useState<string[]>([]);
+	const [, setSearchHistory] = useState<SearchHistoryItem[]>([]);
+	const [, setMotivations] = useState<string[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const itemsPerPage = 6;
 	const [showAlert, setShowAlert] = useState(false);
@@ -203,12 +200,12 @@ const Home: React.FC = () => {
 		localStorage.setItem('searchHistory', JSON.stringify(updatedHistory));
 	};
 
-	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-		const { value } = event.target;
-		setSearchQuery(value);
+	// const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+	// 	const { value } = event.target;
+	// 	setSearchQuery(value);
 
-		fetchSuggestions(value);
-	};
+	// 	fetchSuggestions(value);
+	// };
 
 	const handlePageChange = (page: number) => {
 		setCurrentPage(page);
@@ -221,52 +218,52 @@ const Home: React.FC = () => {
 		return searchResults.slice(startIndex, endIndex);
 	};
 
-	const fetchSuggestions = async (value: string) => {
-		try {
-			const prizesCollectionGroupRef = collectionGroup(firestore, 'laureates');
-			const searchTerms = value.toLowerCase().split(' ');
-			const queryPromises = searchTerms.map(term =>
-				getDocs(query(prizesCollectionGroupRef, where('searchTerms', 'array-contains', term)))
-			);
+	// const fetchSuggestions = async (value: string) => {
+	// 	try {
+	// 		const prizesCollectionGroupRef = collectionGroup(firestore, 'laureates');
+	// 		const searchTerms = value.toLowerCase().split(' ');
+	// 		const queryPromises = searchTerms.map(term =>
+	// 			getDocs(query(prizesCollectionGroupRef, where('searchTerms', 'array-contains', term)))
+	// 		);
 
-			const querySnapshots = await Promise.all(queryPromises);
-			const suggestions: SuggestionsItem[] = [];
+	// 		const querySnapshots = await Promise.all(queryPromises);
+	// 		const suggestions: SuggestionsItem[] = [];
 
-			querySnapshots.forEach(snapshot => {
-				snapshot.forEach(doc => {
-					const data = doc.data();
-					const fullName = data.surname ? `${data.firstname} ${data.surname}` : data.firstname;
-					suggestions.push({ fullName: fullName, motivation: data.motivation });
-				});
-			});
+	// 		querySnapshots.forEach(snapshot => {
+	// 			snapshot.forEach(doc => {
+	// 				const data = doc.data();
+	// 				const fullName = data.surname ? `${data.firstname} ${data.surname}` : data.firstname;
+	// 				suggestions.push({ fullName: fullName, motivation: data.motivation });
+	// 			});
+	// 		});
 
-			// Sort the suggestions based on the custom logic
-			suggestions.sort((a, b) => {
-				const aFullName = 'fullName' in a ? a.fullName : '';
-				const bFullName = 'fullName' in b ? b.fullName : '';
+	// 		// Sort the suggestions based on the custom logic
+	// 		suggestions.sort((a, b) => {
+	// 			const aFullName = 'fullName' in a ? a.fullName : '';
+	// 			const bFullName = 'fullName' in b ? b.fullName : '';
 
-				const aFirstNameStartsWith = aFullName.toLowerCase().startsWith(value.toLowerCase());
-				const bFirstNameStartsWith = bFullName.toLowerCase().startsWith(value.toLowerCase());
-				const aLastNameStartsWith = aFullName.toLowerCase().endsWith(value.toLowerCase());
-				const bLastNameStartsWith = bFullName.toLowerCase().endsWith(value.toLowerCase());
+	// 			const aFirstNameStartsWith = aFullName.toLowerCase().startsWith(value.toLowerCase());
+	// 			const bFirstNameStartsWith = bFullName.toLowerCase().startsWith(value.toLowerCase());
+	// 			const aLastNameStartsWith = aFullName.toLowerCase().endsWith(value.toLowerCase());
+	// 			const bLastNameStartsWith = bFullName.toLowerCase().endsWith(value.toLowerCase());
 
-				if (aFirstNameStartsWith && !bFirstNameStartsWith) {
-					return -1; // a should come before b
-				} else if (!aFirstNameStartsWith && bFirstNameStartsWith) {
-					return 1; // b should come before a
-				} else if (aLastNameStartsWith && !bLastNameStartsWith) {
-					return -1; // a should come before b
-				} else if (!aLastNameStartsWith && bLastNameStartsWith) {
-					return 1; // b should come before a
-				} else {
-					return 0; // keep the order unchanged
-				}
-			});
-			setSuggestions(suggestions);
-		} catch (error) {
-			console.error('Error fetching suggestions:', error);
-		}
-	};
+	// 			if (aFirstNameStartsWith && !bFirstNameStartsWith) {
+	// 				return -1; // a should come before b
+	// 			} else if (!aFirstNameStartsWith && bFirstNameStartsWith) {
+	// 				return 1; // b should come before a
+	// 			} else if (aLastNameStartsWith && !bLastNameStartsWith) {
+	// 				return -1; // a should come before b
+	// 			} else if (!aLastNameStartsWith && bLastNameStartsWith) {
+	// 				return 1; // b should come before a
+	// 			} else {
+	// 				return 0; // keep the order unchanged
+	// 			}
+	// 		});
+	// 		setSuggestions(suggestions);
+	// 	} catch (error) {
+	// 		console.error('Error fetching suggestions:', error);
+	// 	}
+	// };
 
 	const handleSearch = () => {
 		try {
