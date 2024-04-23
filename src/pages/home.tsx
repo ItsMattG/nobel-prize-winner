@@ -3,7 +3,7 @@ import { getDocs, query, where, QuerySnapshot, DocumentData, collectionGroup } f
 import { firestore } from '../firebase';
 import prizesData from '../newfile.json';
 import { IconSearch, IconAward, IconMoodSad, IconHeartFilled, IconHeart, IconInfoCircle } from '@tabler/icons-react';
-import { Select, Input, Button, Badge, Table, Pagination, Burger, MultiSelect, Drawer, Alert } from '@mantine/core';
+import { Select, Input, Button, Table, Pagination, Burger, MultiSelect, Drawer, Alert } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import '@mantine/core/styles.css';
 import { Link } from 'react-router-dom';
