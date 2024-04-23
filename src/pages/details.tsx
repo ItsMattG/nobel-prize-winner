@@ -71,7 +71,7 @@ const Details: React.FC = () => {
 
 	return (
 		<div className="details-page">
-			<Drawer overlayProps={{ backgroundOpacity: 0.5, blur: 4 }} offset={0} size="xs" radius="md" position="right" opened={opened} onClose={close} title="Extra Settings">
+			<Drawer overlayProps={{ backgroundOpacity: 0.5, blur: 4 }} offset={0} size="xs" radius="md" position="right" opened={opened} onClose={close}>
 				<div className="draw-content">
 					<Link to="/" style={{ textDecoration: 'none' }}>
 						<div>
@@ -102,42 +102,37 @@ const Details: React.FC = () => {
 			<div className="winner-container">
 				{winner && (
 					<div className="winner-details">
-						<div className="circle">
-							<span className="initials">
-								{`${winner.firstname.charAt(0)}${winner.surname ? winner.surname.charAt(0) : ''}`}
-							</span>
+						<div className="winner-header">
+							<div className="circle">
+								<p className="initials">
+									{`${winner.firstname.charAt(0)}${winner.surname ? winner.surname.charAt(0) : ''}`}
+								</p>
+							</div>
+							<div>
+								<div>
+									<h3>{winner.firstname} {winner.surname ? winner.surname : ''}</h3>
+								</div>
+								<div>
+									<p>{winner.category}</p>
+								</div>
+								<div>
+									<p>{winner.year}</p>
+								</div>
+							</div>
 						</div>
 						<div className="winner-name-details">
 							<div>
-								<h4>Firstname:</h4>
-								<span>{winner.firstname}</span>
-							</div>
-							{winner.surname && (
-								<div>
-									<h4>Surname:</h4>
-									<span>{winner.surname}</span>
-								</div>
-							)}
-							<div>
 								<h4>Motivation:</h4>
-								<span>{winner.motivation}</span>
-							</div>
-							<div>
-								<h4>Year:</h4>
-								<span>{winner.year}</span>
-							</div>
-							<div>
-								<h4>Category:</h4>
-								<span>{winner.category}</span>
+								<p>{winner.motivation}</p>
 							</div>
 							<div>
 								<h4>Prize Share:</h4>
-								<span>Received
+								<p>Received
 									{winner.share === 1 ? " Full" :
 										winner.share === 2 ? " a Half" :
 										winner.share === 3 ? " a Third" :
 										winner.share === 4 ? " a Quarter" : ''}
-								</span>
+								</p>
 							</div>
 						</div>
 					</div>

@@ -91,6 +91,7 @@ header {
 	background-color: #333;
 	color: #fff;
 	padding: 0 calc(8px + 1.5625vw);
+	z-index: 9999;
 }
 
 .smaller-container {
@@ -105,34 +106,25 @@ header {
 
 .results-badge-container {
 	display: flex;
-	justify-content: center;
+	justify-content: flex-start;
 	align-items: center;
 	width: 100%;
-	padding-top: calc(8px + 1.5625vw);
-	padding-bottom: calc(5px + 1.5625vw);
-}
-
-.results-badge-container span {
-	letter-spacing: 1px;
+	padding-left: 10px;
 }
 
 .search .mantine-focus-auto {
 	border-color: #ff9f59 !important;
 }
 
+/* Input field border outline */
 .m_6c018570[data-variant='default'] {
 	--input-bd-focus: #ff9f59 !important;
 }
 
 .results-badge {
 	color: #000 !important;
-	background-color: #ff9f59 !important;
-}
-
-.results-badge {
+	font-size: 14px;
 	width: 30% !important;
-	padding-top: 1% !important;
-	padding-bottom: 1% !important;
 }
 
 .search {
@@ -150,6 +142,7 @@ header {
 .suggestions {
 	height: calc(90% - 40px);
 	overflow-y: auto;
+	padding-top: 4px;
 }
 
 .suggestions h4 {
@@ -178,6 +171,7 @@ header {
 	align-items: center;
 	padding-left: 10px;
 	padding-right: 10px;
+	padding-bottom: 10px;
 }
 
 .search-container-inner {
@@ -265,11 +259,19 @@ header {
 
 .skeleton-result-text__container {
 	display: flex;
-	justify-content: center;
+	justify-content: flex-start;
 	align-items: center;
 	width: 100%;
 	padding-top: calc(8px + 1.5625vw);
 	padding-bottom: calc(5px + 1.5625vw);
+	padding-left: 10px;
+}
+
+.skeleton-heart {
+	width: 5%;
+	height: 1rem;
+	margin-bottom: 0.5rem;
+	border-radius: 0.25rem;
 }
 
 .skeleton-text {
@@ -280,10 +282,10 @@ header {
 }
 
 .skeleton-result-text {
-	width: 50% !important;
+	width: 25% !important;
 	padding-top: 1% !important;
 	padding-bottom: 1% !important;
-	height: 2rem;
+	height: 1rem;
 	border-radius: 0.25rem;
 }
 
@@ -307,6 +309,12 @@ header {
 	display: flex;
 	justify-content: space-between;
 	width: 50%;
+}
+
+.skeleton-header__container {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
 }
 
 .skeleton-pagination-control {
@@ -391,9 +399,17 @@ header {
 .winner-details {
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: space-evenly;
 	align-items: center;
 	height: 90%;
+}
+
+.winner-header {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	gap: 2em;
 }
 
 .related-winner-details {
@@ -441,8 +457,15 @@ header {
 	padding-left: 4px;
 }
 
+/* Drawer itself */
 .m_b8a05bbd {
-	max-width: 55% !important;
+}
+
+.draw-content {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	gap: 1em;
 }
 
 .draw-content h3 {
@@ -455,10 +478,16 @@ header {
 	letter-spacing: 2px;
 }
 
+/* Table TD */
+.m_4e7aa4ef {
+	padding-bottom: 10px !important;
+}
+
 .margin-table-row {
 	margin-bottom: 10px !important;
 }
 
+/* Table TR */
 .m_4e7aa4fd:where([data-with-row-border]) {
 	border-top: 1px solid #dee2e6 !important;
 }
@@ -478,11 +507,16 @@ header {
 }
 
 .favourites-button-remove {
-	padding-top: 4px;
+	padding-top: 12px;
 }
 
 .favourites .m_4e7aa4ef {
 	border-radius: 20px !important;
 	border: solid 1px white;
 	padding: 20px !important;
+}
+
+/* X on Drawer */
+.m_b5489c3c {
+	justify-content: flex-end !important;
 }

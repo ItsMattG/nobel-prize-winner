@@ -122,7 +122,10 @@ const Home: React.FC = () => {
 	const SkeletonRow = () => (
 		<Table.Tr>
 			<Table.Td className="skeleton-text__container">
-				<div className="animated-text skeleton-text skeleton-text__title"></div>
+				<div className="skeleton-header__container">
+					<div className="animated-text skeleton-text skeleton-text__title"></div>
+					<div className="animated-text skeleton-heart"></div>
+				</div>
 				<div className="animated-text skeleton-text skeleton-text__body"></div>
 			</Table.Td>
 		</Table.Tr>
@@ -710,7 +713,7 @@ const Home: React.FC = () => {
 
 	return (
 		<div className="big-container">
-			<Drawer overlayProps={{ backgroundOpacity: 0.5, blur: 4 }} offset={0} size="xs" radius="md" position="right" opened={opened} onClose={close} title="Extra Settings">
+			<Drawer overlayProps={{ backgroundOpacity: 0.5, blur: 4 }} offset={0} size="xs" radius="md" position="right" opened={opened} onClose={close}>
 				<div className="draw-content">
 					<Link to="/favourite" style={{ textDecoration: 'none' }}>
 						<div>
@@ -835,7 +838,9 @@ const Home: React.FC = () => {
 
 				{!isLoading && searchResults.length > 0 && (
 					<div className="results-badge-container">
-						<Badge className="results-badge" size="md" variant="filled">Results: { searchResults.length }</Badge>
+						<span className="results-badge">
+							Results: { searchResults.length }
+						</span>
 					</div>
 				)}
 
