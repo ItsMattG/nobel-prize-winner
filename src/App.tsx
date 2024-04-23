@@ -1,27 +1,22 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import { Button } from '@mantine/core';
+import Home from './pages/home';
+import Details from './pages/details';
+import History from './pages/history';
+import Favourite from './pages/favourite';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-		<Button variant="filled">Button</Button>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+	<Router>
+		<Routes>
+			<Route path="/" element={<Home />} />
+			<Route path="/details/:id" element={<Details />} />
+			<Route path="/history" element={<History />} />
+			<Route path="/favourite" element={<Favourite />} />
+		</Routes>
+	</Router>
   );
 }
 
