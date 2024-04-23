@@ -28,26 +28,30 @@ const Details: React.FC = () => {
 	const [winner, setWinner] = useState<NobelPrizeWinner | null>(null);
 	const [relatedWinners, setRelatedWinners] = useState<NobelPrizeWinner[]>([]);
 
-  // Fetch additional details for the winner with the given id
-	const fetchWinnerDetails = async () => {
+	// Fetch winner details on component mount
+	useEffect(() => {
+		const fetchWinnerDetails = async () => {
 			const laureateQuery = query(
 				collectionGroup(firestore, 'laureates'),
 				where('id', '==', id)
 			);
 
-		try {
-			const querySnapshot = await getDocs(laureateQuery);
-			if (!querySnapshot.empty) {
-				const docData = querySnapshot.docs[0].data() as NobelPrizeWinner;
-				setWinner(docData);
-				fetchRelatedWinners(docData.year, docData.id); // Fetch related winners after setting the winner
-			} else {
-				console.log('No matching document found');
+			try {
+				const querySnapshot = await getDocs(laureateQuery);
+				if (!querySnapshot.empty) {
+					const docData = querySnapshot.docs[0].data() as NobelPrizeWinner;
+					setWinner(docData);
+					fetchRelatedWinners(docData.year, docData.id); // Fetch related winners after setting the winner
+				} else {
+					console.log('No matching document found');
+				}
+			} catch (error) {
+				console.error('Error fetching winner details:', error);
 			}
-		} catch (error) {
-			console.error('Error fetching winner details:', error);
-		}
-	};
+		};
+
+		fetchWinnerDetails();
+	}, [id]);
 
 	const fetchRelatedWinners = async (year: number, excludeId: string) => {
 		const relatedQuery = query(
@@ -64,12 +68,6 @@ const Details: React.FC = () => {
 			console.error('Error fetching related winners:', error);
 		}
 	};
-
-  	// Fetch winner details on component mount
-	useEffect(() => {
-		fetchWinnerDetails();
-	}, [id]);
-
 
 	return (
 		<div className="details-page">
