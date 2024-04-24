@@ -23,7 +23,7 @@
 - Implementing third party search capabilities over creating own as there's many edge cases and takes time. Given the time constraints.
 - Third party search cost money so implemented own small one (Algolia & Elastic required Firebase Blaze). Needed to implement searchTerm keywords less than 20k writes per day.
 
-**Considerations in data:**
+**Considerations regarding JSON data:**
 - Surname is sometimes ommitted, in some cases it's due to an organisation winning in others they don't have a surname.
 - Removed cases of whitespace, and weird characters.
 - Removed inconsistencies with fullstops and capitilisation.
