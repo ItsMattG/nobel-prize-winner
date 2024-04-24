@@ -1,3 +1,12 @@
+:root {
+	--brand-color: #ff9f59;
+	--brand-text-light: #fff;
+	--brand-text-light-dark: #333;
+	--brand-text-dark: #000;
+	--brand-background-light: #e6f3ed;
+	--brand-background-dark: #ccc;
+}
+
 /* CSS Resetting */
 *, *::before, *::after {
 	box-sizing: border-box !important;

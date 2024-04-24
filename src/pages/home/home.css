@@ -13,23 +13,23 @@
 	justify-content: flex-start;
 	align-items: center;
 	width: 100%;
-	padding-left: 10px;
+	padding-left: 0.625rem;
 }
 
 .results-badge {
-	color: #000 !important;
-	font-size: 14px;
+	color: var(--brand-text-dark) !important;
+	font-size: 0.875rem;
 	width: 30% !important;
 }
 
 /* Override Mantine UI library CSS */
 .search-container__input-container .mantine-focus-auto {
-	border-color: #ff9f59 !important;
+	border-color: var(--brand-color) !important;
 }
 
 /* Input field border outline */
 .m_6c018570[data-variant='default'] {
-	--input-bd-focus: #ff9f59 !important;
+	--input-bd-focus: var(--brand-color) !important;
 }
 
 .search-container__input-container {
@@ -62,11 +62,11 @@
 }
 
 .winners h4 {
-	color: #000;
+	color: var(--brand-text-dark);
 }
 
 .winners span {
-	color: #333;
+	color: var(--brand-text-light-dark);
 }
 
 .winners__overflow {

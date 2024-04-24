@@ -29,7 +29,7 @@
 	justify-content: space-evenly;
 	align-items: center;
 	height: 90%;
-	gap: 3em;
+	gap: 3rem;
 
 	@media (min-width: 1440px) {
 		display: flex;
@@ -38,16 +38,25 @@
 	}
 }
 
+.winner-name-details {
+	display: flex;
+	flex-direction: column;
+}
+
+.winner-name-details h4 {
+	font-size: 18px !important;
+}
+
 .winner__header {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
-	gap: 2em;
+	gap: 3rem;
 }
 
 .circle {
-	background-color: #e6f3ed;
+	background-color: var(--brand-background-light);
 	border-radius: 50%;
 	height: 12rem;
 	text-align: center;
@@ -60,16 +69,6 @@
 	position: relative;
 	top: calc(12rem / 4);
 }
-
-.winner-name-details {
-	display: flex;
-	flex-direction: column;
-}
-
-.winner-name-details h4 {
-	font-size: 18px !important;
-}
-
 
 .related-winner__details-container {
 	@media (min-width: 1440px) {
@@ -95,17 +94,17 @@
 	align-items: center;
 }
 
-.square {
-	background-color: #ccc;
-	height: 8rem;
-	text-align: center;
-	width: 8rem;
-}
-
 .related-initials {
 	font-size: calc(8rem / 2);
 	line-height: 1;
 	position: relative;
 	top: calc(8rem / 4);
-	color: #000;
+	color: var(--brand-text-dark);
+}
+
+.square {
+	background-color: var(--brand-background-dark);
+	height: 8rem;
+	text-align: center;
+	width: 8rem;
 }

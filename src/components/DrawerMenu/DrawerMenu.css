@@ -2,11 +2,11 @@
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
-	gap: 1em;
+	gap: 1rem;
 }
 
 .draw-content h3 {
-	color: #333;
+	color: var(--brand-text-light-dark);
 	font-size: 26px;
 }
 
