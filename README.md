@@ -43,6 +43,7 @@ Other features:
 - Third party search cost money so implemented own small one (Algolia & Elastic required Firebase Blaze). Needed to implement searchTerm keywords less than 20k writes per day.
 
 ### Considerations regarding JSON data: ###
+**- Import JSON data into Firebase**
 - Surname is sometimes ommitted, in some cases it's due to an organisation winning in others they don't have a surname.
 - Removed cases of whitespace, and weird characters.
 - Removed inconsistencies with fullstops and capitilisation.
