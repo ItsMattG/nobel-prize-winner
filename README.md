@@ -3,12 +3,15 @@
 
 **Features:**
 - Search list of Nobel Prize Winners
-- Filter by:
-      - Search Terms
-      - Category
-      - Organisations Only
-      - Category/Years where no one won
-      - From Year - To Year
+
+Filter by:
+- Search Terms
+- Category
+- Organisations Only
+- Category/Years where no one won
+- From Year - To Year
+
+Other features:
 - Create a list of your favourite Nobel prize winners
 - See a list of your search history with different filters
 - Find more details on the Nobel Prize Winner
