@@ -49,6 +49,9 @@ Other features:
 - Converted share field from string to numeric.
 - Added key-value pair isOrganisation to 32 elements as 32 didn't have surnames and of those 30 are organisation and wanted to distinguish.
 
+### Theme: ###
+- Font and theme (colours) were inspired from the Mindset Health website.
+
 ### Recommended VS Code Extensions from Mantine: ###
 - VS Code does not recognise postcss syntax by default so enable syntax highlighting and suppress variables ($variable) errors:
 - PostCSS Intellisense and Highlighting by Vu Nguyen (https://marketplace.visualstudio.com/items?itemName=vunguyentuan.vscode-postcss)
