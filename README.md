@@ -23,6 +23,12 @@ Other features:
 ### Note: ###
 - It's optimised for mobile.
 - There's a weird bug on the production site where the 'Related Nobel Prize Winners' div at the bottom of the details page is shifted to the left on desktop view - this div is centred on local.
+- Local View on Desktop (Google Chrome):
+- ![image](https://github.com/ItsMattG/nobel-prize-winner/assets/63543270/e7c2b7f1-b3bf-45a3-a057-c26cb72c6264)
+- Production View on Desktop (Google Chrome):
+- ![image](https://github.com/ItsMattG/nobel-prize-winner/assets/63543270/bbf07efd-ddc8-4dec-82cd-356f1727c857)
+
+
 
 ### Considerations in scoping: ###
 - React UI over customise styling to focus on showcasing other skills.
