@@ -24,9 +24,10 @@ Other features:
 - It's optimised for mobile.
 - There's a weird bug on the production site where the 'Related Nobel Prize Winners' div at the bottom of the details page is shifted to the left on desktop view - this div is centred on local.
 - Local View on Desktop (Google Chrome):
-- ![image](https://github.com/ItsMattG/nobel-prize-winner/assets/63543270/e7c2b7f1-b3bf-45a3-a057-c26cb72c6264)
+- ![image](https://github.com/ItsMattG/nobel-prize-winner/assets/63543270/1703d3f6-d901-4262-88cc-06bf5610ccb6)
 - Production View on Desktop (Google Chrome):
-- ![image](https://github.com/ItsMattG/nobel-prize-winner/assets/63543270/bbf07efd-ddc8-4dec-82cd-356f1727c857)
+- ![image](https://github.com/ItsMattG/nobel-prize-winner/assets/63543270/ac9bd133-d5c7-463b-8b10-fc79016cc940)
+
 
 
 
