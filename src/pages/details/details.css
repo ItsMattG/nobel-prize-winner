@@ -83,7 +83,6 @@
 .inner-related-winner__details-container {
 	@media (min-width: 1440px) {
 		display: flex;
-		width: 40%;
 		flex-direction: column;
 	}
 }
