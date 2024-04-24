@@ -1,8 +1,6 @@
 ## View the web app here: ##
 - https://nobel-prize-winner-cd8e8.web.app
 
-----------------------------------------------------------------------
-
 ## Features: ##
 - Search list of Nobel Prize Winners
 
