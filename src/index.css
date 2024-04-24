@@ -557,6 +557,9 @@ header {
 /* Table TD */
 .m_4e7aa4ef {
 	padding-bottom: calc(8px + 1.5625vw) !important;
+	@media (min-width: 1440px) {
+		padding-bottom: calc(2px + 1vw) !important;
+	}
 }
 
 .margin-table-row {

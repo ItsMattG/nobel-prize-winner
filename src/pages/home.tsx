@@ -19,29 +19,7 @@ interface SearchHistoryItem {
 	isOrganisation: boolean | null;
 }
 
-// interface Prize {
-// 	year: string;
-// 	category: string;
-// 	overallMotivation?: string;
-// 	laureates: Laureate[];
-// }
-
-// interface NoPrizeAwardedEntry {
-// 	year: string;
-// 	category: string;
-// 	overallMotivation: string;
-// }
-
-// interface Laureate {
-// 	id: string;
-// 	firstname: string;
-// 	surname?: string;
-// 	motivation: string;
-// 	share: string;
-// 	isOrganisation?: boolean;
-// }
-
-interface LaureateV2 {
+interface Laureate {
 	id: string;
 	firstname: string;
 	surname?: string;
@@ -78,7 +56,7 @@ const Home: React.FC = () => {
 	const [selectedIsOrganisation, setSelectedIsOrganisation] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [hasSearched, setHasSearched] = useState<boolean>(false);
-	const [searchResults, setSearchResults] = useState<LaureateV2[]>([]);
+	const [searchResults, setSearchResults] = useState<Laureate[]>([]);
 	const [, setSearchHistory] = useState<SearchHistoryItem[]>([]);
 	const [, setMotivations] = useState<string[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -205,70 +183,16 @@ const Home: React.FC = () => {
 		localStorage.setItem('searchHistory', JSON.stringify(updatedHistory));
 	};
 
-	// const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-	// 	const { value } = event.target;
-	// 	setSearchQuery(value);
-
-	// 	fetchSuggestions(value);
-	// };
-
 	const handlePageChange = (page: number) => {
 		setCurrentPage(page);
 	};
 
 	// Function to slice the suggestions array based on current page and items per page
-	const getSlicedSuggestions = (): LaureateV2[] => {
+	const getSlicedSuggestions = (): Laureate[] => {
 		const startIndex = (currentPage - 1) * itemsPerPage;
 		const endIndex = startIndex + itemsPerPage;
 		return searchResults.slice(startIndex, endIndex);
 	};
-
-	// const fetchSuggestions = async (value: string) => {
-	// 	try {
-	// 		const prizesCollectionGroupRef = collectionGroup(firestore, 'laureates');
-	// 		const searchTerms = value.toLowerCase().split(' ');
-	// 		const queryPromises = searchTerms.map(term =>
-	// 			getDocs(query(prizesCollectionGroupRef, where('searchTerms', 'array-contains', term)))
-	// 		);
-
-	// 		const querySnapshots = await Promise.all(queryPromises);
-	// 		const suggestions: SuggestionsItem[] = [];
-
-	// 		querySnapshots.forEach(snapshot => {
-	// 			snapshot.forEach(doc => {
-	// 				const data = doc.data();
-	// 				const fullName = data.surname ? `${data.firstname} ${data.surname}` : data.firstname;
-	// 				suggestions.push({ fullName: fullName, motivation: data.motivation });
-	// 			});
-	// 		});
-
-	// 		// Sort the suggestions based on the custom logic
-	// 		suggestions.sort((a, b) => {
-	// 			const aFullName = 'fullName' in a ? a.fullName : '';
-	// 			const bFullName = 'fullName' in b ? b.fullName : '';
-
-	// 			const aFirstNameStartsWith = aFullName.toLowerCase().startsWith(value.toLowerCase());
-	// 			const bFirstNameStartsWith = bFullName.toLowerCase().startsWith(value.toLowerCase());
-	// 			const aLastNameStartsWith = aFullName.toLowerCase().endsWith(value.toLowerCase());
-	// 			const bLastNameStartsWith = bFullName.toLowerCase().endsWith(value.toLowerCase());
-
-	// 			if (aFirstNameStartsWith && !bFirstNameStartsWith) {
-	// 				return -1; // a should come before b
-	// 			} else if (!aFirstNameStartsWith && bFirstNameStartsWith) {
-	// 				return 1; // b should come before a
-	// 			} else if (aLastNameStartsWith && !bLastNameStartsWith) {
-	// 				return -1; // a should come before b
-	// 			} else if (!aLastNameStartsWith && bLastNameStartsWith) {
-	// 				return 1; // b should come before a
-	// 			} else {
-	// 				return 0; // keep the order unchanged
-	// 			}
-	// 		});
-	// 		setSuggestions(suggestions);
-	// 	} catch (error) {
-	// 		console.error('Error fetching suggestions:', error);
-	// 	}
-	// };
 
 	const handleSearch = () => {
 		try {
@@ -289,7 +213,7 @@ const Home: React.FC = () => {
 		}
 	};
 
-	function calculateQualityOfMatch(query: string, laureates: LaureateV2[]): LaureateV2[] {
+	function calculateQualityOfMatch(query: string, laureates: Laureate[]): Laureate[] {
 		// Calculate quality of match for each laureate
 		for (const laureate of laureates) {
 			let score = 0;
@@ -364,9 +288,9 @@ const Home: React.FC = () => {
 			} else {
 				const querySnapshot: QuerySnapshot<DocumentData> = await getDocs(q);
 
-				const results: LaureateV2[] = [];
+				const results: Laureate[] = [];
 				querySnapshot.forEach(doc => {
-					const laureateData = doc.data() as LaureateV2;
+					const laureateData = doc.data() as Laureate;
 					results.push({ ...laureateData, qualityOfMatch: 0 });
 				});
 
@@ -383,335 +307,6 @@ const Home: React.FC = () => {
 			console.error('Error fetching suggestions:', error);
 		}
 	};
-
-	// const getAllLaureates = async () => {
-	// 	const laureatesCollectionRef = collectionGroup(firestore, 'laureates');
-	// 	const laureatesQuerySnapshot = await getDocs(laureatesCollectionRef);
-
-	// 	const laureatesData: Laureate[] = [];
-	// 	laureatesQuerySnapshot.forEach((doc) => {
-	// 		laureatesData.push({ id: doc.id, ...doc.data() } as Laureate);
-	// 	});
-	// 	return laureatesData;
-	// };
-
-	// const getAllPeace = async () => {
-	// 	const chemistryCollectionRef = collection(firestore, 'prizes', '2003', 'Chemistry');
-	// 	const chemistryDocSnapshot = await getDocs(chemistryCollectionRef);
-
-	// 	let chemistryDocId;
-	// 	chemistryDocSnapshot.forEach((doc) => {
-	// 		chemistryDocId = doc.id;
-	// 	});
-
-	// 	if (chemistryDocId) {
-	// 		const laureatesCollectionRef = collection(firestore, 'prizes', '2003', 'Chemistry', chemistryDocId, 'laureates');
-	// 		const querySnapshot = await getDocs(laureatesCollectionRef);
-	// 		const laureatesData: DocumentData[] = [];
-	// 		querySnapshot.forEach((doc) => {
-	// 			laureatesData.push(doc.data());
-	// 		});
-	// 	} else {
-	// 		console.error('Chemistry document not found in 2003 prize');
-	// 	}
-	// };
-
-	// const savePrizesData = async () => {
-	// 	try {
-	// 		const data = prizesData;
-
-	// 		if (data && data.prizes) {
-	// 			const prizesData: (Prize | NoPrizeAwardedEntry)[] = data.prizes;
-	// 			for (let i = 0; i < prizesData.length; i++) {
-	// 				const prize = prizesData[i];
-
-	// 				if (validateData(prize)) {
-	// 					if ('laureates' in prize) {
-	// 						// Prize object
-	// 						const validatedPrize = prize as Prize;
-	// 						if (validatePrize(validatedPrize)) {
-	// 							await insertPrizeIntoFirestore(validatedPrize);
-	// 						} else {
-	// 							console.error('Invalid prize data:', validatedPrize);
-	// 						}
-	// 					} else {
-	// 						// NoPrizeAwardedEntry object
-	// 						const validatedNoPrize = prize as NoPrizeAwardedEntry;
-	// 						if (validateNoPrize(validatedNoPrize)) {
-	// 							await insertNoPrizeIntoFirestore(validatedNoPrize);
-	// 						} else {
-	// 							console.error('Invalid no prize data:', validatedNoPrize);
-	// 						}
-	// 					}
-	// 				} else {
-	// 					console.error('Invalid data:', prize);
-	// 				}
-	// 			}
-	// 			console.log('Data insertion completed successfully.');
-	// 		} else {
-	// 			console.error('Failed to fetch prizes data.');
-	// 		}
-	// 	} catch (error) {
-	// 		console.error('Error fetching or inserting data into Firestore:', error);
-	// 	}
-	// };
-
-	// const validatePrize = (prize: Prize): boolean => {
-	// 	return (
-	// 		typeof prize.year === 'string' &&
-	// 		typeof prize.category === 'string' &&
-	// 		prize.overallMotivation ? typeof prize.overallMotivation === 'string' : true &&
-	// 		Array.isArray(prize.laureates) &&
-	// 		prize.laureates.every(validateLaureate)
-	// 	);
-	// };
-
-	// const validateLaureate = (laureate: Laureate): boolean => {
-	// 	return (
-	// 		typeof laureate.id === 'string' &&
-	// 		typeof laureate.firstname === 'string' &&
-	// 		laureate.surname ? typeof laureate.surname === 'string' : true &&
-	// 		typeof laureate.motivation === 'string' &&
-	// 		typeof laureate.share === 'string' &&
-	// 		laureate.isOrganisation ? typeof laureate.isOrganisation === 'boolean' : true
-	// 	);
-	// };
-
-	// const validateNoPrize = (noPrize: NoPrizeAwardedEntry): boolean => {
-	// 	return (
-	// 		typeof noPrize.year === 'string' &&
-	// 		typeof noPrize.category === 'string' &&
-	// 		typeof noPrize.overallMotivation === 'string'
-	// 	);
-	// };
-
-	// const validateData = (data: Prize | NoPrizeAwardedEntry): boolean => {
-	// 	if ('laureates' in data) {
-	// 		const prize = data as Prize;
-	// 		return validatePrize(prize);
-	// 	} else {
-	// 		const noPrize = data as NoPrizeAwardedEntry;
-	// 		return validateNoPrize(noPrize);
-	// 	}
-	// };
-
-	// function normalizeString(str: string): string {
-	// 	return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-	// }
-
-	// const insertSearchTermsIntoFirestore = async () => {
-	// 	try {
-	// 		// Reference to the 'laureates' collection group
-	// 		const laureatesCollectionGroupRef = collectionGroup(firestore, 'laureates');
-
-	// 		// Get all documents from the 'laureates' collection group
-	// 		const laureatesQuerySnapshot = await getDocs(laureatesCollectionGroupRef);
-
-	// 		// Iterate through each laureate document
-	// 		for (const laureateDoc of laureatesQuerySnapshot.docs) {
-	// 			const laureateData = laureateDoc.data();
-	// 			console.log('Laureate Data:', laureateData);
-
-	// 			// Check if firstname and surname properties exist
-	// 			if (!laureateData || (!laureateData.firstname && !laureateData.surname)) {
-	// 				console.log('Firstname and surname not found in laureate data.');
-	// 				continue; // Skip to the next iteration
-	// 			}
-
-	// 			const { firstname, surname } = laureateData;
-
-	// 			// Generate search terms array
-	// 			const searchTerms = [];
-
-	// 			// Add full name if available
-	// 			if (firstname && surname) {
-	// 				const fullName = normalizeString(firstname + ' ' + surname).toLowerCase();
-	// 				searchTerms.push(fullName);
-	// 			}
-
-	// 			// Add individual substrings for firstname
-	// 			if (firstname) {
-	// 				const firstNameSubString: string[] = [];
-	// 				for (let i = 0; i < firstname.length - 2; i++) {
-	// 					for (let j = i + 3; j <= firstname.length; j++) {
-	// 						const substring = normalizeString(firstname.substring(i, j)).toLowerCase();
-	// 						if (!firstNameSubString.includes(substring)) {
-	// 							firstNameSubString.push(substring);
-	// 						}
-	// 					}
-	// 				}
-	// 				if (surname) {
-	// 					if (firstNameSubString.length > 4) {
-	// 						firstNameSubString.splice(4);
-	// 					}
-	// 				}
-	// 				searchTerms.push(...firstNameSubString.slice(0, 9));
-	// 			}
-
-	// 			// Add individual substrings for surname
-	// 			if (surname) {
-	// 				const surNameSubString: string[] = [];
-	// 				for (let i = 0; i < surname.length - 2; i++) {
-	// 					for (let j = i + 3; j <= surname.length; j++) {
-	// 						const substring = normalizeString(surname.substring(i, j)).toLowerCase();
-	// 						if (!surNameSubString.includes(substring)) {
-	// 							surNameSubString.push(substring);
-	// 						}
-	// 					}
-	// 				}
-	// 				if (surNameSubString.length > 4) {
-	// 					surNameSubString.splice(4);
-	// 				}
-	// 				searchTerms.push(...surNameSubString.slice(0, 9));
-	// 			}
-
-	// 			// Update laureate document with searchTerms
-	// 			const laureateDocRef = laureateDoc.ref;
-	// 			await updateDoc(laureateDocRef, { searchTerms });
-
-	// 			// Output search terms for the current laureate
-	// 			console.log('Search terms for', firstname, surname + ':', searchTerms);
-	// 		}
-
-	// 		console.log('Search terms inserted into Firestore successfully.');
-	// 	} catch (error) {
-	// 		console.error('Error inserting search terms into Firestore:', error);
-	// 	}
-	// };
-
-	// const insertYearAndCategoryIntoFireStore = async (): Promise<void> => {
-	// 	try {
-	// 		for (const prize of prizesData.prizes) {
-	// 			const { year, category, laureates } = prize;
-	// 			// if (!laureates && year && category) {
-	// 			// 	console.log('year', year);
-	// 			// 	console.log('category', category);
-	// 			// 	console.log('overallMotivation', overallMotivation);
-
-	// 			// 	const parsedYear = parseInt(year, 10); // Parse the year string to a number
-
-	// 			// 	// Prize has no laureates, create a new document under a 'laureates' subcollection
-	// 			// 	const prizeRef = doc(collection(firestore, 'prizes', parsedYear.toString(), category));
-	// 			// 	const laureatesCollectionRef = collection(prizeRef, 'laureates');
-
-	// 			// 	// Generate a unique ID for the new document
-	// 			// 	const newDocumentRef = doc(laureatesCollectionRef);
-
-	// 			// 	// Set the document data with 'noWinner', 'year', and 'category' fields
-	// 			// 	await setDoc(newDocumentRef, { noWinner: true, year: parsedYear, category });
-
-	// 			// 	console.log(`Document created for prize with no laureates: Year ${parsedYear}, Category ${category}`);
-	// 			// }
-	// 			if (laureates && laureates.length > 0) {
-	// 				for (const laureate of laureates) {
-	// 					const laureateId = laureate.id;
-
-	// 					const parsedYear = parseInt(year);
-
-	// 					const laureateQuery = query(
-	// 						collectionGroup(firestore, 'laureates'),
-	// 						where('id', '==', laureateId)
-	// 					);
-	// 					const laureateQuerySnapshot = await getDocs(laureateQuery);
-	// 					console.log('laureate', laureate)
-	// 					// Check if the document exists
-	// 					if (!laureateQuerySnapshot.empty) {
-	// 						// Iterate through the matching documents (there should be only one)
-	// 						laureateQuerySnapshot.forEach(async (doc) => {
-	// 							const data = doc.data();
-
-	// 							// Check if the year field is a string
-	// 							if (data.parsedYear) {
-	// 								// Delete the parsedYear field
-	// 								delete data.parsedYear;
-
-	// 								// Update the document without the parsedYear field
-	// 								await updateDoc(doc.ref, { ...data, parsedYear: deleteField() });
-	// 							}
-	// 						});
-	// 					} else {
-	// 						console.log(`No matching document found for laureate ID ${laureateId}`);
-	// 					}
-	// 				}
-	// 			}
-	// 		}
-	// 	} catch (error) {
-	// 		console.error('Error inserting search terms into Firestore:', error);
-	// 	}
-	// };
-
-	// const insertPrizeIntoFirestore = async (prize: Prize) => {
-	// 	const prizesRef = collection(firestore, 'prizes');
-
-	// 	// Create a document reference for the year
-	// 	const prizeDocRef = doc(prizesRef, prize.year);
-
-	// 	// Check if the document exists
-	// 	const prizeDocSnapshot = await getDoc(prizeDocRef);
-
-	// 	// If the document doesn't exist, create it
-	// 	if (!prizeDocSnapshot.exists()) {
-	// 		await setDoc(prizeDocRef, {}); // You can set any data you want for the document here
-	// 		console.log(`Document ${prize.year} created successfully.`);
-	// 	}
-
-	// 	// Create a new document for the category
-	// 	const prizeCollectionRef = collection(prizeDocRef, prize.category);
-	// 	const categoryDocRef = doc(prizeCollectionRef);
-
-	// 	// Check if the document exists
-	// 	const categoryDocSnapshot = await getDoc(categoryDocRef);
-
-	// 	// If the document doesn't exist, create it
-	// 	if (!categoryDocSnapshot.exists()) {
-	// 		await setDoc(categoryDocRef, {}); // You can set any data you want for the document here
-	// 		console.log(`Document ${prize.category} created successfully.`);
-	// 	}
-
-	// 	// Create a subcollection for laureates
-	// 	const laureatesCollectionRef = collection(categoryDocRef, 'laureates');
-
-	// 	// Insert laureates into the subcollection
-	// 	for (const laureate of prize.laureates) {
-	// 		// Convert share to numeric
-	// 		const shareNumeric = Number(laureate.share);
-	// 		await addDoc(laureatesCollectionRef, { ...laureate, share: shareNumeric });
-	// 	}
-
-	// 	// Check if overallMotivation exists
-	// 	if (prize.overallMotivation) {
-	// 		// Set the overallMotivation field for the category document
-	// 		await setDoc(categoryDocRef, { overallMotivation: prize.overallMotivation });
-	// 	}
-
-	// 	console.log('Prize inserted into Firestore successfully.');
-	// };
-
-	// const insertNoPrizeIntoFirestore = async (noPrize: NoPrizeAwardedEntry) => {
-	// 	const prizesRef = collection(firestore, 'prizes');
-
-	// 	// Create a document reference for the year
-	// 	const prizeDocRef = doc(prizesRef, noPrize.year);
-
-	// 	// Check if the document exists
-	// 	const prizeDocSnapshot = await getDoc(prizeDocRef);
-
-	// 	// If the document doesn't exist, create it
-	// 	if (!prizeDocSnapshot.exists()) {
-	// 		await setDoc(prizeDocRef, {}); // You can set any data you want for the document here
-	// 		console.log(`Document ${noPrize.year} created successfully.`);
-	// 	}
-
-	// 	// Create a new document for the category
-	// 	const noPrizeCollectionRef = collection(prizeDocRef, noPrize.category);
-	// 	const noPrizeDocRef = doc(noPrizeCollectionRef);
-
-	// 	// Set the overallMotivation field for the category document
-	// 	await setDoc(noPrizeDocRef, { overallMotivation: noPrize.overallMotivation });
-
-	// 	console.log('No prize awarded entry inserted into Firestore successfully.');
-	// };
-
 
 	return (
 		<div className="big-container">
@@ -751,6 +346,7 @@ const Home: React.FC = () => {
 									<IconSearch color="#ff9f59" />
 								</Button>
 							</div>
+
 							<div className="filters">
 								<div className="cat-org">
 									<Select
@@ -766,7 +362,7 @@ const Home: React.FC = () => {
 										onChange={(event) => {
 											const selectedValues: string[] = event;
 
-											// Initialize variables to track deselected options
+											// Track deselected options
 											let deselectedIsOrganisation: boolean = selectedIsOrganisation;
 											let deselectedNoWinner: boolean = selectedNoWinner;
 
@@ -791,6 +387,7 @@ const Home: React.FC = () => {
 										}}
 									/>
 								</div>
+
 								<div className="year-container">
 									<Select
 										placeholder="From Year"
@@ -850,19 +447,19 @@ const Home: React.FC = () => {
 												<Link to={item.noWinner ? '/' : `/details/${item.id}`} style={{ textDecoration: 'none' }}>
 													{item.overallMotivation ? (
 														<>
-															{'category' in item && (
+															{item.category && (
 																<h4>{item.category} - {item.year}</h4>
 															)}
-															{'overallMotivation' in item && (
+															{item.overallMotivation && (
 																<span>{item.overallMotivation}</span>
 															)}
 														</>
 													) : (
 														<>
-															{'firstname' in item && (
+															{item.firstname && (
 																<h4>{item.firstname} {item.surname ? item.surname : ''} - {item.year} {item.category}</h4>
 															)}
-															{'motivation' in item && (
+															{item.motivation && (
 																<span>{item.motivation}</span>
 															)}
 														</>

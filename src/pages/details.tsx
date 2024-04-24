@@ -76,20 +76,6 @@ const Details: React.FC = () => {
 
 			<Navbar openDrawer={open} />
 
-			{/* <header >
-
-				<nav className="navbar">
-					<Link to="/" style={{ textDecoration: 'none' }}>
-						<div className="logo">
-							<img src="/apple-touch-icon.png" alt="Nobel Prize" className="logo-icon" />
-						</div>
-					</Link>
-					<div className="menu-toggle">
-						<Burger color="white" onClick={open} aria-label="Toggle navigation" />
-					</div>
-				</nav>
-			</header> */}
-
 			<div className="winner-container">
 				{winner && (
 					<div className="winner-details-inner">

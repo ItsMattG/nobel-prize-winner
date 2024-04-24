@@ -61,18 +61,24 @@ const Favourite: React.FC = () => {
 												<span>{search.surname}</span>
 											</div>
 										)}
-										<div>
-											<h4>Motivation:</h4>
-											<span>{search.motivation}</span>
-										</div>
-										<div>
-											<h4>Year:</h4>
-											<span>{search.year}</span>
-										</div>
-										<div>
-											<h4>Category:</h4>
-											<span>{search.category}</span>
-										</div>
+										{search.motivation && (
+											<div>
+												<h4>Motivation:</h4>
+												<span>{search.motivation}</span>
+											</div>
+										)}
+										{search.year && (
+											<div>
+												<h4>Year:</h4>
+												<span>{search.year}</span>
+											</div>
+										)}
+										{search.category && (
+											<div>
+												<h4>Category:</h4>
+												<span>{search.category}</span>
+											</div>
+										)}
 										{search.share && (
 											<div>
 												<h4>Prize Share:</h4>
