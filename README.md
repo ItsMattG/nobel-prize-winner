@@ -9,10 +9,11 @@
       - Organisations Only
       - Category/Years where no one won
       - From Year - To Year
-  - Create a list of your favourite Nobel prize winners
-  - See a list of your search history with different filters
-  - Find more details on the Nobel Prize Winner
-  - Discover related Nobel Prize Winners
+- Create a list of your favourite Nobel prize winners
+- See a list of your search history with different filters
+- Find more details on the Nobel Prize Winner
+- Discover related Nobel Prize Winners
+- Search is sorted by quality of match to the key terms
 
 **Note:**
 - It's optimised for mobile.
