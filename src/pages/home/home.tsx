@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { getDocs, query, where, QuerySnapshot, DocumentData, collectionGroup } from 'firebase/firestore';
-import { firestore } from '../firebase';
+import { firestore } from '../../firebase';
 import { IconSearch, IconAward, IconMoodSad, IconHeartFilled, IconHeart, IconInfoCircle } from '@tabler/icons-react';
 import { Select, Input, Button, Table, Pagination, MultiSelect, Alert } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import '@mantine/core/styles.css';
 import { Link } from 'react-router-dom';
-import DrawerMenu from '../components/DrawerMenu'
-import Navbar from '../components/Navbar'
+import DrawerMenu from '../../components/DrawerMenu/DrawerMenu';
+import Navbar from '../../components/navbar/navbar';
+import './home.css';
 
 interface SearchParams {
 	searchQuery: string;
@@ -263,13 +264,13 @@ const Home: React.FC = () => {
 	};
 
 	return (
-		<div className="big-container">
+		<div className="page-layout">
 			<DrawerMenu opened={opened} close={close} />
 
 			<Navbar openDrawer={open} />
 
-			<div className="smaller-container">
-				<div className="inner-smaller-container">
+			<div className="page-content">
+				<div className="page-content__inner">
 					{showAlert && (
 						<div onClick={() => setShowAlert(false)}>
 							<Alert variant="light" color="black" withCloseButton title="Refine your search" icon={<IconInfoCircle />}>
@@ -277,7 +278,7 @@ const Home: React.FC = () => {
 							</Alert>
 						</div>
 					)}
-					<div className="container-header">
+					<div className="page-header">
 						<h1 className="test-font">Nobel Prize Winners</h1>
 					</div>
 
@@ -398,7 +399,7 @@ const Home: React.FC = () => {
 									{getSlicedPrizeWinners().map((item, index) => (
 										<Table.Tr key={index}>
 											<Table.Td>
-												<Link to={item.noWinner ? '/' : `/details/${item.id}`} style={{ textDecoration: 'none' }}>
+												<Link to={item.noWinner ? '/' : `/details/${item.id}`} className="link-text" >
 													{item.overallMotivation ? (
 														<>
 															{item.category && (

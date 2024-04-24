@@ -1,8 +1,9 @@
 import React from 'react';
 import { Table } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import DrawerMenu from '../components/DrawerMenu'
-import Navbar from '../components/Navbar'
+import DrawerMenu from '../../components/DrawerMenu/DrawerMenu'
+import Navbar from '../../components/navbar/navbar'
+import './history.css';
 
 interface SearchHistoryItem {
 	searchQuery: string;
@@ -19,13 +20,13 @@ const History: React.FC = () => {
 	const searches: SearchHistoryItem[] = JSON.parse(searchHistory).reverse();
 
 	return (
-		<div className="big-container">
+		<div className="page-layout">
 			<DrawerMenu opened={opened} close={close} />
 
 			<Navbar openDrawer={open} />
 
-			<div className="smaller-container">
-				<div className="container-header">
+			<div className="page-content">
+				<div className="page-header">
 					<h1>Search History</h1>
 				</div>
 				<div className="history">

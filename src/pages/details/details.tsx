@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { collectionGroup, query, where, getDocs } from 'firebase/firestore';
-import { firestore } from '../firebase';
+import { firestore } from '../../firebase';
 import { Carousel } from '@mantine/carousel';
 import { useDisclosure } from '@mantine/hooks';
-import DrawerMenu from '../components/DrawerMenu'
-import Navbar from '../components/Navbar'
+import DrawerMenu from '../../components/DrawerMenu/DrawerMenu'
+import Navbar from '../../components/navbar/navbar'
+import '@mantine/carousel/styles.css';
+import './details.css';
 
 interface DetailsParams {
 	id: string;
@@ -76,11 +78,11 @@ const Details: React.FC = () => {
 
 			<Navbar openDrawer={open} />
 
-			<div className="winner-container">
+			<div className="winner">
 				{winner && (
-					<div className="winner-details-inner">
-						<div className="winner-details">
-							<div className="winner-header">
+					<div className="winner__details-inner">
+						<div className="winner__details">
+							<div className="winner__header">
 								<div className="circle">
 									<p className="initials">
 										{`${winner.firstname.charAt(0)}${winner.surname ? winner.surname.charAt(0) : ''}`}
@@ -117,18 +119,18 @@ const Details: React.FC = () => {
 					</div>
 				)}
 
-				<div className="related-winner-details-container">
-					<div className="inner-related-winner-details-container">
-						<div className="related-winner-h2">
+				<div className="related-winner__details-container">
+					<div className="inner-related-winner__details-container">
+						<div>
 							<h2>Related Nobel Prize Winners</h2>
 						</div>
 						<Carousel slideSize="70%" height={200} slideGap="xl" controlsOffset="xs">
 							{relatedWinners.map((relatedWinner, index) => (
-								<div key={index} className="related-winner-details">
-									<Link to={`/details/${relatedWinner.id}`} style={{ textDecoration: 'none' }}>
+								<div key={index} className="related-winner__details">
+									<Link to={`/details/${relatedWinner.id}`} className="link-no-decoration">
 										<Carousel.Slide>
-											<div className="circle-v2" style={{ backgroundColor: colors[index % colors.length] }}>
-												<span className="initials-v2">
+											<div className="square" style={{ backgroundColor: colors[index % colors.length] }}>
+												<span className="related-initials">
 													{`${relatedWinner.firstname.charAt(0)}${relatedWinner.surname ? relatedWinner.surname.charAt(0) : ''}`}
 												</span>
 											</div>

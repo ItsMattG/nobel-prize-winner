@@ -1,9 +1,8 @@
 import React from 'react';
-import './App.css';
-import Home from './pages/home';
-import Details from './pages/details';
-import History from './pages/history';
-import Favourite from './pages/favourite';
+import Home from './pages/home/home';
+import Details from './pages/details/details';
+import History from './pages/history/history';
+import Favourite from './pages/favourite/favourite';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 

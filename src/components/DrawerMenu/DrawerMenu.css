@@ -1,0 +1,16 @@
+.draw-content {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	gap: 1em;
+}
+
+.draw-content h3 {
+	color: #333;
+	font-size: 26px;
+}
+
+/* X on Drawer */
+.m_b5489c3c {
+	justify-content: flex-end !important;
+}

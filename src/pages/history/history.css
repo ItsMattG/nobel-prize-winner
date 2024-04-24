@@ -1,0 +1,27 @@
+.history {
+	width: 90%;
+
+	@media (min-width: 800px) {
+		width: 100%;
+	}
+	@media (min-width: 800px) {
+		width: 70%;
+	}
+}
+
+.history h3 {
+	font-size: 18px;
+}
+
+.history h4 {
+	font-size: 16px;
+}
+
+.history span {
+	font-size: 15px;
+}
+
+/* Table TR */
+.m_4e7aa4fd:where([data-with-row-border]) {
+	border-top: 1px solid #dee2e6 !important;
+}
