@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+
 import { getDocs, query, where, QuerySnapshot, DocumentData, collectionGroup } from 'firebase/firestore';
 import { firestore } from '../../firebase';
+
 import { IconSearch, IconAward, IconMoodSad, IconHeartFilled, IconHeart, IconInfoCircle } from '@tabler/icons-react';
+
 import { Select, Input, Button, Table, Pagination, MultiSelect, Alert } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import '@mantine/core/styles.css';
-import { Link } from 'react-router-dom';
+
 import DrawerMenu from '../../components/DrawerMenu/DrawerMenu';
 import Navbar from '../../components/navbar/navbar';
+
+import '@mantine/core/styles.css';
 import './home.css';
 
 interface SearchParams {
@@ -35,7 +40,7 @@ interface Laureate {
 	noWinner?: boolean;
 }
 
-const Home: React.FC = () => {
+const Home = () => {
 	const [opened, { open, close }] = useDisclosure(false);
 	const itemsPerPage: number = 6;
 	const numberOfSkeletonRows: number = 6;
@@ -259,7 +264,7 @@ const Home: React.FC = () => {
 				setSearchResults(resultsWithFavourites);
 			}
 		} catch (error) {
-			console.error('Error fetching suggestions:', error);
+			console.error('Error fetching results:', error);
 		}
 	};
 
@@ -279,16 +284,16 @@ const Home: React.FC = () => {
 						</div>
 					)}
 					<div className="page-header">
-						<h1 className="test-font">Nobel Prize Winners</h1>
+						<h1>Nobel Prize Winners</h1>
 					</div>
 
 					<div className="search-container">
-						<div className="search-container-inner">
-							<div className="search">
+						<div className="search-container__inner">
+							<div className="search-container__input-container">
 								<Input
 									placeholder="Search..."
 									size="sm"
-									className="search-input"
+									className="search-container__input-container__search-input"
 									value={searchQuery}
 									onChange={(event) => setSearchQuery(event.target.value)}
 									onKeyDown={(event) => {
@@ -297,13 +302,13 @@ const Home: React.FC = () => {
 										}
 									}}
 								/>
-								<Button onClick={handleSearch} size="sm" variant="outline" className="search-button">
+								<Button onClick={handleSearch} size="sm" variant="outline">
 									<IconSearch color="#ff9f59" />
 								</Button>
 							</div>
 
 							<div className="filters">
-								<div className="cat-org">
+								<div className="filters__category">
 									<Select
 										placeholder="Category"
 										size="sm"
@@ -312,7 +317,7 @@ const Home: React.FC = () => {
 									/>
 									<MultiSelect
 										placeholder="Extra Filters"
-										className="multi-select"
+										className="filters__category__multi-select"
 										data={['Only Organisations', 'No Winners']}
 										onChange={(event) => {
 											const selectedValues: string[] = event;
@@ -347,7 +352,7 @@ const Home: React.FC = () => {
 									<Select
 										placeholder="From Year"
 										size="sm"
-										className="year-filter"
+										className="year-container__filter"
 										data={years}
 										onChange={(selectedValue) => {
 											setSelectedFromYear(typeof selectedValue === 'string' ? parseInt(selectedValue) : selectedValue);
@@ -356,7 +361,7 @@ const Home: React.FC = () => {
 									<Select
 										placeholder="To Year"
 										size="sm"
-										className="year-filter"
+										className="year-container__filter"
 										data={years}
 										onChange={(selectedValue) => {
 											setSelectedToYear(typeof selectedValue === 'string' ? parseInt(selectedValue) : selectedValue);
@@ -375,15 +380,15 @@ const Home: React.FC = () => {
 						</div>
 					)}
 
-					<div className="suggestions">
+					<div className="winners">
 						{isLoading ? (
-							<div className="overflow">
+							<div className="winners__overflow">
 								<SkeletonResult />
 								<SkeletonTable />
 							</div>
 						) : searchResults.length === 0 ? (
 							<div className="placeholder-search-something">
-								<div className="placeholder-search-something-content">
+								<div className="placeholder-search-something__content">
 									<p>{!hasSearched ? 'Search for something...' : 'No results matching search.'}</p>
 									<div>
 										{!hasSearched
@@ -399,7 +404,7 @@ const Home: React.FC = () => {
 									{getSlicedPrizeWinners().map((item, index) => (
 										<Table.Tr key={index}>
 											<Table.Td>
-												<Link to={item.noWinner ? '/' : `/details/${item.id}`} className="link-text" >
+												<Link to={item.noWinner ? '/' : `/details/${item.id}`} className="link-no-decoration" >
 													{item.overallMotivation ? (
 														<>
 															{item.category && (

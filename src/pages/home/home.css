@@ -16,7 +16,14 @@
 	padding-left: 10px;
 }
 
-.search .mantine-focus-auto {
+.results-badge {
+	color: #000 !important;
+	font-size: 14px;
+	width: 30% !important;
+}
+
+/* Override Mantine UI library CSS */
+.search-container__input-container .mantine-focus-auto {
 	border-color: #ff9f59 !important;
 }
 
@@ -25,47 +32,15 @@
 	--input-bd-focus: #ff9f59 !important;
 }
 
-.results-badge {
-	color: #000 !important;
-	font-size: 14px;
-	width: 30% !important;
-}
-
-.search {
+.search-container__input-container {
 	display: flex;
 	width: 100%;
 	padding-bottom: calc(4px + 1.5625vw);
 	gap: calc(8px + 1.5625vw);
 }
 
-.search-input {
+.search-container__input-container__search-input {
 	flex: 1;
-}
-
-
-.suggestions {
-	overflow-y: auto;
-	padding-top: 4px;
-}
-
-.suggestions h4 {
-	color: #000;
-}
-
-.suggestions span {
-	color: #333;
-}
-
-.suggestion {
-	padding: calc(8px + 1.5625vw);
-	border: 1px solid #ccc;
-	border-radius: 5px;
-	margin-bottom: calc(8px + 1.5625vw);
-	cursor: pointer;
-}
-
-.suggestion:hover {
-	background-color: #f0f0f0;
 }
 
 .search-container {
@@ -77,8 +52,26 @@
 	padding-bottom: 10px;
 }
 
-.search-container-inner {
+.search-container__inner {
 	width: 100%;
+}
+
+.winners {
+	overflow-y: auto;
+	padding-top: 4px;
+}
+
+.winners h4 {
+	color: #000;
+}
+
+.winners span {
+	color: #333;
+}
+
+.winners__overflow {
+	overflow-y: hidden;
+	height: 100%;
 }
 
 .year-container {
@@ -89,7 +82,7 @@
 	justify-content: space-between;
 }
 
-.year-filter {
+.year-container__filter {
 	width: 50%;
 }
 
@@ -102,22 +95,6 @@
 	@media (min-width: 1440px) {
 		height: 12%;
 	}
-}
-
-.prev-button,
-.next-button {
-	width: 30% !important;
-}
-
-.logo {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.logo-icon {
-	height: 40px;
-
 }
 
 .placeholder-search-something {
@@ -133,7 +110,7 @@
 	}
 }
 
-.placeholder-search-something-content {
+.placeholder-search-something__content {
 	opacity: 0.5;
 	display: flex;
 	justify-content: center;
@@ -142,6 +119,37 @@
 	gap: 3rem;
 }
 
+.filters__category {
+	display: flex;
+	justify-content: space-between;
+	gap: calc(8px + 1.5625vw);
+}
+
+/* Category selector */
+.filters__category .m_46b77525 {
+	@media (min-width: 800px) {
+		width: 50% !important;
+	}
+}
+
+.filters__category__multi-select {
+	width: 48% !important;
+
+	@media (min-width: 800px) {
+		width: 50% !important;
+	}
+}
+
+/* Table TD */
+.m_4e7aa4ef {
+	padding-bottom: calc(8px + 1.5625vw) !important;
+
+	@media (min-width: 1440px) {
+		padding-bottom: calc(2px + 1vw) !important;
+	}
+}
+
+/* CSS for the skeleton */
 .animated-text {
 	animation: skeleton-loading 1s linear infinite alternate;
 }
@@ -228,86 +236,3 @@
 	width: 15%;
 	border-radius: 0.25rem;
 }
-
-.cat-org {
-	display: flex;
-	justify-content: space-between;
-	gap: calc(8px + 1.5625vw);
-}
-
-/* Category selector */
-.cat-org .m_46b77525 {
-	@media (min-width: 800px) {
-		width: 50% !important;
-	}
-}
-
-.multi-select {
-	width: 48% !important;
-	@media (min-width: 800px) {
-		width: 50% !important;
-	}
-}
-
-.checkboxes {
-	display: flex;
-}
-
-.org-checkbox,
-.no-winner-checkbox {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.mantine-Checkbox-labelWrapper {
-	margin-left: -4px !important;
-}
-
-.mantine-Checkbox-input {
-	cursor: pointer !important;
-}
-
-.mantine-Checkbox-icon {
-	left: 2px !important;
-	height: 100% !important;
-	width: 80% !important;
-}
-
-.overflow {
-	overflow-y: hidden;
-	height: 100%;
-}
-
-.mantine-Alert-root {
-	position: fixed !important;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0.5) !important;
-	z-index: 9999;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.mantine-Alert-wrapper {
-	background-color: white;
-	padding: 20px;
-	border-radius: 8px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-}
-
-.mantine-Alert-body {
-	padding-left: 4px;
-}
-
-/* Table TD */
-.m_4e7aa4ef {
-	padding-bottom: calc(8px + 1.5625vw) !important;
-	@media (min-width: 1440px) {
-		padding-bottom: calc(2px + 1vw) !important;
-	}
-}
-

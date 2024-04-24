@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+
 import { Table, Button } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import DrawerMenu from '../../components/DrawerMenu/DrawerMenu'
-import Navbar from '../../components/navbar/navbar'
+
+import DrawerMenu from '../../components/DrawerMenu/DrawerMenu';
+import Navbar from '../../components/navbar/navbar';
+
 import './favourite.css';
 
 interface SearchFavouriteItem {
@@ -15,7 +18,7 @@ interface SearchFavouriteItem {
 	share: number;
 }
 
-const Favourite: React.FC = () => {
+const Favourite = () => {
 	const colors = ["#ecf5e8", "#c6dbf0"];
 	const [opened, { open, close }] = useDisclosure(false);
 	const [searches, setSearches] = useState<SearchFavouriteItem[]>([]);
@@ -46,6 +49,7 @@ const Favourite: React.FC = () => {
 				<div className="page-header">
 					<h1>Favourites</h1>
 				</div>
+
 				<div className="favourites">
 					<Table>
 						<Table.Tbody>
@@ -92,6 +96,7 @@ const Favourite: React.FC = () => {
 												</span>
 											</div>
 										)}
+
 										<div className="favourites__button-remove">
 											<Button color="#ff9f59" onClick={() => removeFromFavorites(search.id)} size="xs">Remove</Button>
 										</div>

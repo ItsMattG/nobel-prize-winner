@@ -1,8 +1,9 @@
-import React from 'react';
 import { Table } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import DrawerMenu from '../../components/DrawerMenu/DrawerMenu'
-import Navbar from '../../components/navbar/navbar'
+
+import DrawerMenu from '../../components/DrawerMenu/DrawerMenu';
+import Navbar from '../../components/navbar/navbar';
+
 import './history.css';
 
 interface SearchHistoryItem {
@@ -14,7 +15,7 @@ interface SearchHistoryItem {
 	selectedIsOrganisation: boolean;
 }
 
-const History: React.FC = () => {
+const History = () => {
 	const [opened, { open, close }] = useDisclosure(false);
 	const searchHistory: string = localStorage.getItem('searchHistory') || '[]';
 	const searches: SearchHistoryItem[] = JSON.parse(searchHistory).reverse();
@@ -29,6 +30,7 @@ const History: React.FC = () => {
 				<div className="page-header">
 					<h1>Search History</h1>
 				</div>
+
 				<div className="history">
 					<Table>
 						<Table.Tbody>

@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+
 import { collectionGroup, query, where, getDocs } from 'firebase/firestore';
 import { firestore } from '../../firebase';
+
 import { Carousel } from '@mantine/carousel';
 import { useDisclosure } from '@mantine/hooks';
-import DrawerMenu from '../../components/DrawerMenu/DrawerMenu'
-import Navbar from '../../components/navbar/navbar'
+
+import DrawerMenu from '../../components/DrawerMenu/DrawerMenu';
+import Navbar from '../../components/navbar/navbar';
+
 import '@mantine/carousel/styles.css';
 import './details.css';
 
@@ -24,7 +28,7 @@ interface NobelPrizeWinner {
 	share: number;
 }
 
-const Details: React.FC = () => {
+const Details = () => {
 	const colors = ["#ecf5e8", "#c6dbf0"];
 	const [opened, { open, close }] = useDisclosure(false);
 	const { id } = useParams<DetailsParams>();
@@ -88,6 +92,7 @@ const Details: React.FC = () => {
 										{`${winner.firstname.charAt(0)}${winner.surname ? winner.surname.charAt(0) : ''}`}
 									</p>
 								</div>
+
 								<div>
 									<div>
 										<h3>{winner.firstname} {winner.surname ? winner.surname : ''}</h3>
@@ -100,11 +105,13 @@ const Details: React.FC = () => {
 									</div>
 								</div>
 							</div>
+
 							<div className="winner-name-details">
 								<div>
 									<h4>Motivation:</h4>
 									<p>{winner.motivation}</p>
 								</div>
+
 								<div>
 									<h4>Prize Share:</h4>
 									<p>Received
