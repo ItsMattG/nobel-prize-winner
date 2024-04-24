@@ -179,14 +179,14 @@ const Home = () => {
 			let score = 0;
 
 			// Check if the query matches exactly with firstName or surName
-			if (laureate.firstname.toLowerCase() === query.toLowerCase()) {
+			if (laureate.firstname && laureate.firstname.toLowerCase() === query.toLowerCase()) {
 				score += 3; // Exact firstname match gets the highest score
 			} else if (laureate.surname && laureate.surname.toLowerCase() === query.toLowerCase()) {
 				score += 2; // Exact lastname match gets a lower score than firstname match
 			}
 
 			// Check if the query is a partial match of the firstName
-			if (laureate.firstname.toLowerCase().startsWith(query.toLowerCase())) {
+			if (laureate.firstname && laureate.firstname.toLowerCase().startsWith(query.toLowerCase())) {
 				score += 2; // Partial firstname match at the beginning gets a higher score
 			} else if (laureate.surname && laureate.surname.toLowerCase().startsWith(query.toLowerCase())) {
 				score += 1; // Partial lastname match at the beginning gets a lower score than partial firstname match
