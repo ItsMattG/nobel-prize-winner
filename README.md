@@ -16,8 +16,7 @@
 
 **Note:**
 - It's optimised for mobile.
-- There's a weird bug on the production site where the 'Related Nobel Prize Winners' div at the bottom of the details page is shifted to the left.
-- This div is centred on local.
+- There's a weird bug on the production site where the 'Related Nobel Prize Winners' div at the bottom of the details page is shifted to the left on desktop view - this div is centred on local.
 
 **Considerations in scoping:**
 - React UI over customise styling to focus on showcasing other skills.
