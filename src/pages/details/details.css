@@ -70,7 +70,7 @@
 	top: calc(12rem / 4);
 }
 
-.related-winner__details-container {
+.related-winner-details-container {
 	@media (min-width: 1440px) {
 		display: flex;
 		flex-direction: column;
@@ -79,7 +79,7 @@
 	}
 }
 
-.inner-related-winner__details-container {
+.inner-related-winner-details-container {
 	@media (min-width: 1440px) {
 		display: flex;
 		width: 40%;

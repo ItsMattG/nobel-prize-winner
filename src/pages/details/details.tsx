@@ -126,8 +126,8 @@ const Details = () => {
 					</div>
 				)}
 
-				<div className="related-winner__details-container">
-					<div className="inner-related-winner__details-container">
+				<div className="related-winner-details-container">
+					<div className="inner-related-winner-details-container">
 						<div>
 							<h2>Related Nobel Prize Winners</h2>
 						</div>
