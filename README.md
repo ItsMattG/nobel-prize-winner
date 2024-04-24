@@ -24,12 +24,18 @@ Other features:
 - It's optimised for mobile.
 - There's a weird bug on the production site where the 'Related Nobel Prize Winners' div at the bottom of the details page is shifted to the left on desktop view - this div is centred on local.
 - Local View on Desktop (Google Chrome):
-- ![image](https://github.com/ItsMattG/nobel-prize-winner/assets/63543270/1703d3f6-d901-4262-88cc-06bf5610ccb6)
+![image](https://github.com/ItsMattG/nobel-prize-winner/assets/63543270/1703d3f6-d901-4262-88cc-06bf5610ccb6)
 - Production View on Desktop (Google Chrome):
-- ![image](https://github.com/ItsMattG/nobel-prize-winner/assets/63543270/ac9bd133-d5c7-463b-8b10-fc79016cc940)
+![image](https://github.com/ItsMattG/nobel-prize-winner/assets/63543270/ac9bd133-d5c7-463b-8b10-fc79016cc940)
 
 
-
+### Screenshots: ###
+![image](https://github.com/ItsMattG/nobel-prize-winner/assets/63543270/54822e07-5b46-4f4f-bd9d-73041ca9d1dc)
+![image](https://github.com/ItsMattG/nobel-prize-winner/assets/63543270/36a7fbe0-7fda-4ea0-a0e4-4b5388bd2f5e)
+![image](https://github.com/ItsMattG/nobel-prize-winner/assets/63543270/605ddda5-1bae-4026-95ab-db09c6e15b3c)
+![image](https://github.com/ItsMattG/nobel-prize-winner/assets/63543270/d7046a2c-a093-4cfd-a518-f0f83e8f5816)
+![image](https://github.com/ItsMattG/nobel-prize-winner/assets/63543270/cf4b7b5e-8535-4d36-9e7e-a2c16747587f)
+![image](https://github.com/ItsMattG/nobel-prize-winner/assets/63543270/991d60ba-2245-434c-9363-3362d1b2f83a)
 
 ### Considerations in scoping: ###
 - React UI over customise styling to focus on showcasing other skills.
