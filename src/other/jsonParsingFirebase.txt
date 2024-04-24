@@ -1,7 +1,7 @@
 // This file just contains code that I wrote and used when
 // parsing, cleaning and inserting the JSON data into firebase.
 // As well as some other features that I decided to ommit.
-
+// import prizesData from '../newfile.json';
 
 // interface Prize {
 // 	year: string;

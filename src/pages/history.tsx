@@ -6,11 +6,11 @@ import Navbar from '../components/Navbar'
 
 interface SearchHistoryItem {
 	searchQuery: string;
-	category: string;
-	fromYear: number;
-	toYear: number | null;
-	noWinner: boolean | null;
-	isOrganisation: boolean | null;
+	selectedCategory: string;
+	selectedFromYear: number;
+	selectedToYear: number;
+	selectedNoWinner: boolean;
+	selectedIsOrganisation: boolean;
 }
 
 const History: React.FC = () => {
@@ -43,31 +43,31 @@ const History: React.FC = () => {
 												<span>{search.searchQuery}</span>
 											</div>
 										)}
-										{search.category && (
+										{search.selectedCategory && (
 											<div>
 												<h4>Category:</h4>
-												<span>{search.category}</span>
+												<span>{search.selectedCategory}</span>
 											</div>
 										)}
-										{search.fromYear && (
+										{search.selectedFromYear && (
 											<div>
 												<h4>From Year:</h4>
-												<span>{search.fromYear}</span>
+												<span>{search.selectedFromYear}</span>
 											</div>
 										)}
-										{search.toYear && (
+										{search.selectedToYear && (
 											<div>
 												<h4>To Year:</h4>
-												<span>{search.toYear}</span>
+												<span>{search.selectedToYear}</span>
 											</div>
 										)}
-										{search.noWinner && (
+										{search.selectedNoWinner && (
 											<div>
 												<h4>No Winner:</h4>
 												<span>Yes</span>
 											</div>
 										)}
-										{search.isOrganisation && (
+										{search.selectedIsOrganisation && (
 											<div>
 												<h4>Is Organisation:</h4>
 												<span>Yes</span>

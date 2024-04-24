@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { getDocs, query, where, QuerySnapshot, DocumentData, collectionGroup } from 'firebase/firestore';
 import { firestore } from '../firebase';
-import prizesData from '../newfile.json';
 import { IconSearch, IconAward, IconMoodSad, IconHeartFilled, IconHeart, IconInfoCircle } from '@tabler/icons-react';
 import { Select, Input, Button, Table, Pagination, MultiSelect, Alert } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
@@ -10,13 +9,13 @@ import { Link } from 'react-router-dom';
 import DrawerMenu from '../components/DrawerMenu'
 import Navbar from '../components/Navbar'
 
-interface SearchHistoryItem {
-	searchQuery: string | null;
-	category: string | null;
-	fromYear: number | null;
-	toYear: number | null;
-	noWinner: boolean | null;
-	isOrganisation: boolean | null;
+interface SearchParams {
+	searchQuery: string;
+	selectedCategory: string | null;
+	selectedFromYear: number | null;
+	selectedToYear: number | null;
+	selectedNoWinner: boolean;
+	selectedIsOrganisation: boolean;
 }
 
 interface Laureate {
@@ -35,38 +34,23 @@ interface Laureate {
 	noWinner?: boolean;
 }
 
-interface FavouriteItem {
-	id: string;
-	firstname: string;
-	surname: string;
-	year: number;
-	category: string;
-	motivation: string;
-	share: number;
-}
-
-
 const Home: React.FC = () => {
 	const [opened, { open, close }] = useDisclosure(false);
+	const itemsPerPage: number = 6;
+	const numberOfSkeletonRows: number = 6;
+
 	const [searchQuery, setSearchQuery] = useState<string>("");
 	const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 	const [selectedFromYear, setSelectedFromYear] = useState<number | null>(null);
 	const [selectedToYear, setSelectedToYear] = useState<number | null>(null);
 	const [selectedNoWinner, setSelectedNoWinner] = useState<boolean>(false);
 	const [selectedIsOrganisation, setSelectedIsOrganisation] = useState<boolean>(false);
+
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [hasSearched, setHasSearched] = useState<boolean>(false);
 	const [searchResults, setSearchResults] = useState<Laureate[]>([]);
-	const [, setSearchHistory] = useState<SearchHistoryItem[]>([]);
-	const [, setMotivations] = useState<string[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
-	const itemsPerPage = 6;
 	const [showAlert, setShowAlert] = useState(false);
-	const icon = <IconInfoCircle />;
-
-	const handleCloseAlert = () => {
-		setShowAlert(false);
-	};
 
 	const categories = [
 		{ value: 'Chemistry', label: 'Chemistry' },
@@ -114,72 +98,34 @@ const Home: React.FC = () => {
 	const SkeletonTable = () => (
 		<Table>
 			<Table.Tbody>
-				<SkeletonRow />
-				<SkeletonRow />
-				<SkeletonRow />
-				<SkeletonRow />
-				<SkeletonRow />
-				<SkeletonRow />
+				{Array.from({ length: numberOfSkeletonRows }).map((_, index) => (
+					<SkeletonRow key={index} />
+				))}
 			</Table.Tbody>
 		</Table>
 	);
 
-	const addTofavourites = (item: any) => {
-		const favourites: any[] = JSON.parse(localStorage.getItem('favourites') || '[]');
+	const toggleFavourite = (item: Laureate) => {
+		let favourites: Laureate[] = JSON.parse(localStorage.getItem('favourites') || '[]');
 
-		if (!favourites.some(favourite => favourite.id === item.id)) {
+		const isFavourite = favourites.some(favourite => favourite.id === item.id);
+
+		if (isFavourite) {
+			favourites = favourites.filter(favourite => favourite.id !== item.id);
+			item.isFavourite = false;
+		} else {
 			favourites.push(item);
 			item.isFavourite = true;
-			localStorage.setItem('favourites', JSON.stringify(favourites));
 		}
-		setSearchResults([...searchResults]);
-	};
 
-	const removeFromFavourites = (item: any) => {
-		let favourites: any[] = JSON.parse(localStorage.getItem('favourites') || '[]');
-
-		favourites = favourites.filter(favourite => favourite.id !== item.id);
-		item.isFavourite = false;
 		localStorage.setItem('favourites', JSON.stringify(favourites));
 		setSearchResults([...searchResults]);
 	};
 
-	useEffect(() => {
-		const extractedMotivations = prizesData.prizes.map((prize: any) => {
-			if (prize.laureates) {
-				return prize.laureates.map((laureate: any) => laureate.motivation);
-			} else {
-				return [prize.overallMotivation];
-			}
-		});
-		const flatMotivations = extractedMotivations.flat();
-		setMotivations(flatMotivations);
-	}, []);
-
-
-	const addToHistory = (
-		searchQuery: string | null = null,
-		category: string | null = null,
-		fromYear: number | null = null,
-		toYear: number | null = null,
-		noWinner: boolean | null = null,
-		isOrganisation: boolean | null = null
-	) => {
-		// Create an object containing all the search parameters
-		const searchParams: SearchHistoryItem = {
-			searchQuery,
-			category,
-			fromYear,
-			toYear,
-			noWinner,
-			isOrganisation,
-		};
-
+	const addToHistory = (searchParams: SearchParams) => {
 		const existingHistory = JSON.parse(localStorage.getItem('searchHistory') || '[]');
 
-		const updatedHistory: SearchHistoryItem[] = [...existingHistory, searchParams];
-
-		setSearchHistory(updatedHistory);
+		const updatedHistory: SearchParams[] = [...existingHistory, searchParams];
 		localStorage.setItem('searchHistory', JSON.stringify(updatedHistory));
 	};
 
@@ -187,22 +133,30 @@ const Home: React.FC = () => {
 		setCurrentPage(page);
 	};
 
-	// Function to slice the suggestions array based on current page and items per page
-	const getSlicedSuggestions = (): Laureate[] => {
+	const getSlicedPrizeWinners = (): Laureate[] => {
 		const startIndex = (currentPage - 1) * itemsPerPage;
 		const endIndex = startIndex + itemsPerPage;
 		return searchResults.slice(startIndex, endIndex);
 	};
 
 	const handleSearch = () => {
+		const searchParams: SearchParams = {
+			searchQuery,
+			selectedCategory,
+			selectedFromYear,
+			selectedToYear,
+			selectedNoWinner,
+			selectedIsOrganisation
+		};
+
 		try {
-			if (!searchQuery && !selectedCategory && !selectedFromYear && !selectedToYear && !selectedNoWinner && !selectedIsOrganisation) {
+			if (!Object.values(searchParams).some(value => value)) {
 				setShowAlert(true);
 				return;
 			}
 			setIsLoading(true);
-			searchPrizes(searchQuery, selectedCategory, selectedFromYear, selectedToYear, selectedNoWinner, selectedIsOrganisation);
-			addToHistory(searchQuery, selectedCategory, selectedFromYear, selectedToYear, selectedNoWinner, selectedIsOrganisation); // Add the search query to history
+			searchPrizes(searchParams);
+			addToHistory(searchParams);
 			setTimeout(() => {
 				setIsLoading(false);
 				setHasSearched(true);
@@ -248,40 +202,40 @@ const Home: React.FC = () => {
 	}
 
 	// Function to create a search query based on multiple criteria
-	function createSearchQuery(searchTerm: string | null = null, category: string | null = null, fromYear: number | null = null, toYear: number | null = null, noWinner: boolean | null = null, isOrganisation: boolean | null = null) {
+	function createSearchQuery(searchParams: SearchParams) {
 		const prizesCollectionGroupRef = collectionGroup(firestore, 'laureates');
 		let queries = [];
 
-		if (searchTerm) {
-			queries.push(where('searchTerms', 'array-contains', searchTerm.toLowerCase()));
+		if (searchParams.searchQuery) {
+			queries.push(where('searchTerms', 'array-contains', searchQuery.toLowerCase()));
 		}
 
-		if (category) {
-			queries.push(where('category', '==', category));
+		if (searchParams.selectedCategory) {
+			queries.push(where('category', '==', searchParams.selectedCategory));
 		}
 
-		if (fromYear !== undefined && fromYear !== null && toYear !== undefined && toYear !== null) {
-			queries.push(where('year', '>=', fromYear), where('year', '<=', toYear));
-		} else if (fromYear !== undefined && fromYear !== null) {
-			queries.push(where('year', '>=', fromYear));
-		} else if (toYear !== undefined && toYear !== null ) {
-			queries.push(where('year', '<=', toYear));
+		if (searchParams.selectedFromYear !== undefined && searchParams.selectedFromYear !== null && searchParams.selectedToYear !== undefined && searchParams.selectedToYear !== null) {
+			queries.push(where('year', '>=', searchParams.selectedFromYear), where('year', '<=', searchParams.selectedToYear));
+		} else if (searchParams.selectedFromYear !== undefined && searchParams.selectedFromYear !== null) {
+			queries.push(where('year', '>=', searchParams.selectedFromYear));
+		} else if (searchParams.selectedToYear !== undefined && searchParams.selectedToYear !== null ) {
+			queries.push(where('year', '<=', searchParams.selectedToYear));
 		}
 
-		if (noWinner && noWinner === true) {
-			queries.push(where('noWinner', '==', noWinner));
+		if (searchParams.selectedNoWinner && searchParams.selectedNoWinner === true) {
+			queries.push(where('noWinner', '==', searchParams.selectedNoWinner));
 		}
 
-		if (isOrganisation && isOrganisation === true) {
-			queries.push(where('isOrganisation', '==', isOrganisation));
+		if (searchParams.selectedIsOrganisation && searchParams.selectedIsOrganisation === true) {
+			queries.push(where('isOrganisation', '==', searchParams.selectedIsOrganisation));
 		}
 
 		return queries.length !== 0 ? query(prizesCollectionGroupRef, ...queries) : null;
 	}
 
-	const searchPrizes = async (searchQuery: string | null = null, category: string | null = null, fromYear: number | null = null, toYear: number | null = null, noWinner: boolean | null = null, isOrganisation: boolean | null = null) => {
+	const searchPrizes = async (searchParams: SearchParams) => {
 		try {
-			const q = createSearchQuery(searchQuery, category, fromYear, toYear, noWinner, isOrganisation);
+			const q = createSearchQuery(searchParams);
 
 			if (!q) {
 				setShowAlert(true);
@@ -295,7 +249,7 @@ const Home: React.FC = () => {
 				});
 
 				const resultsWithQuality = searchQuery ? calculateQualityOfMatch(searchQuery, results) : results;
-				const favourites: FavouriteItem[] = JSON.parse(localStorage.getItem('favourites') || '[]');
+				const favourites: Laureate[] = JSON.parse(localStorage.getItem('favourites') || '[]');
 				const resultsWithFavourites = resultsWithQuality.map(result => ({
 					...result,
 					isFavourite: favourites.some(favourite => favourite.id === result.id)
@@ -317,8 +271,8 @@ const Home: React.FC = () => {
 			<div className="smaller-container">
 				<div className="inner-smaller-container">
 					{showAlert && (
-						<div onClick={handleCloseAlert}>
-							<Alert variant="light" color="black" withCloseButton title="Refine your search" icon={icon}>
+						<div onClick={() => setShowAlert(false)}>
+							<Alert variant="light" color="black" withCloseButton title="Refine your search" icon={<IconInfoCircle />}>
 								Please refine your search. Add some filters, have some fun!
 							</Alert>
 						</div>
@@ -441,7 +395,7 @@ const Home: React.FC = () => {
 						) : (
 							<Table withRowBorders={false}>
 								<Table.Tbody>
-									{getSlicedSuggestions().map((item, index) => (
+									{getSlicedPrizeWinners().map((item, index) => (
 										<Table.Tr key={index}>
 											<Table.Td>
 												<Link to={item.noWinner ? '/' : `/details/${item.id}`} style={{ textDecoration: 'none' }}>
@@ -468,8 +422,8 @@ const Home: React.FC = () => {
 											</Table.Td>
 											<Table.Td>
 												{item.isFavourite
-													? <IconHeartFilled color="#ff9f59" onClick={() => removeFromFavourites(item)} style={{ cursor: 'pointer', height: '20px', width: '20px' }} />
-													: <IconHeart color="#ff9f59" onClick={() => addTofavourites(item)} style={{ cursor: 'pointer', height: '20px', width: '20px' }} />
+													? <IconHeartFilled color="#ff9f59" onClick={() => toggleFavourite(item)} style={{ cursor: 'pointer', height: '20px', width: '20px' }} />
+													: <IconHeart color="#ff9f59" onClick={() => toggleFavourite(item)} style={{ cursor: 'pointer', height: '20px', width: '20px' }} />
 												}
 											</Table.Td>
 										</Table.Tr>
